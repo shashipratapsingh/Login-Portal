@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Leave</title>
+
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6.5.0 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --sidebar-submenu-bg: #111827;
+            --bg-main: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary-color: #0ea5e9;
+            --profile-primary: #4f46e5;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- Dashboard Sidebar Layout Styles --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            padding: 24px;
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-brand a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 12px;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-menu a, .sidebar-menu .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a i, .sidebar-menu .dropdown-trigger i:first-child {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu li.active > a, .sidebar-menu .dropdown-trigger:hover {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+        }
+
+        .arrow-icon {
+            margin-left: auto;
+            font-size: 11px;
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-trigger[aria-expanded="true"] .arrow-icon {
+            transform: rotate(90deg);
+        }
+
+        .submenu {
+            list-style: none;
+            padding-left: 0;
+            margin: 4px 0 8px 0;
+            background-color: var(--sidebar-submenu-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .submenu a {
+            padding: 8px 16px 8px 48px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        /* --- Main Layout Frame Wrapper --- */
+        .main-content {
+            margin-left: 260px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 260px);
+        }
+
+        .content-body {
+            padding: 40px;
+        }
+
+        /* --- Leave Cards & Panels (Synced with Profile UI) --- */
+        .section-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+            margin-bottom: 24px;
+            height: 100%;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .section-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .form-control, .form-select {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--profile-primary) !important;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+        }
+
+        .section-title {
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            color: #1e1b4b;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .section-title i {
+            color: var(--profile-primary);
+        }
+
+        .btn-custom-dashboard {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-custom-dashboard:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+            border-color: #94a3b8;
+        }
+
+        .btn-submit-profile {
+            background: var(--profile-primary);
+            color: white;
+            border-radius: 8px;
+            padding: 12px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-submit-profile:hover {
+            background: #4338ca;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            color: white;
+        }
+
+        /* Custom Styling for Clean Table */
+        .table-responsive-custom {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table tbody td {
+            padding: 16px;
+            vertical-align: middle;
+            color: #334155;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Clean Badges Matching Dashboard Tone */
+        .badge {
+            padding: 6px 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        .badge-success-clean { background-color: #ecfdf5; color: #065f46; border: 1px solid #10b981; }
+        .badge-danger-clean { background-color: #fef2f2; color: #991b1b; border: 1px solid #f87171; }
+        .badge-warning-clean { background-color: #fffbeb; color: #92400e; border: 1px solid #fbbf24; }
+
+        .alert-success {
+            background-color: #ecfdf5 !important;
+            border: 1px solid #10b981 !important;
+            color: #065f46 !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR WITH DROPDOWNS -->
+    <aside th:replace="~{fragments/sidebar :: sidebar-component}"></aside>
+
+    <!-- MAIN INTERFACE WRAPPER -->
+    <div class="main-content">
+
+        <!-- CONTENT BODY -->
+        <main class="content-body">
+            <div class="container-fluid" style="max-width: 1200px; padding: 0;">
+
+                <!-- HEADER SECTION -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fs-4 m-0 fw-bold tracking-tight text-slate-900">
+                        Leave Management Portal
+                    </h2>
+                    <a th:href="@{/employee/dashboard}" class="btn btn-custom-dashboard rounded-pill px-4 fw-medium">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- SUCCESS ALERT -->
+                <div th:if="${param.success}" class="alert alert-success rounded-3 text-center py-3 mb-4 shadow-sm">
+                    <i class="fa-solid fa-circle-check me-2 fs-5 align-middle"></i> Leave applied successfully!
+                </div>
+
+                <div class="row items-stretch">
+                    <!-- Column 1: Leave Application Form -->
+                    <div class="col-xl-5 col-lg-6 mb-4">
+                        <div class="section-card">
+                            <h4 class="section-title">
+                                <i class="fa-solid fa-paper-plane me-2 opacity-75"></i>Apply for Leave
+                            </h4>
+
+                            <form th:action="@{/leave/submit}" th:object="${leaveRequest}" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label" for="leaveType">Leave Type</label>
+                                    <select id="leaveType" th:field="*{leaveType}" class="form-select" required>
+                                        <option value="" disabled selected>Select Leave Type</option>
+                                        <option value="Sick Leave">Sick Leave</option>
+                                        <option value="Casual Leave">Casual Leave</option>
+                                        <option value="Short Leave">Short Leave</option>
+                                        <option value="Half Day">Half Day</option>
+                                        <option value="Full Day">Full Day</option>
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="startDate">Start Date</label>
+                                        <input type="date" id="startDate" th:field="*{startDate}" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="endDate">End Date</label>
+                                        <input type="date" id="endDate" th:field="*{endDate}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" for="reason">Reason / Description</label>
+                                    <textarea id="reason" th:field="*{reason}" class="form-control" rows="3" placeholder="Please provide a brief reason..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-submit-profile w-100 shadow-sm">
+                                    <i class="fa-solid fa-circle-check me-2"></i>Submit Application
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Leave History Table -->
+                    <div class="col-xl-7 col-lg-6 mb-4">
+                        <div class="section-card">
+                            <h4 class="section-title">
+                                <i class="fa-solid fa-clock-rotate-left me-2 opacity-75"></i>My Leave History
+                            </h4>
+
+                            <div class="table-responsive-custom">
+                                <table class="table table-hover align-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="leave : ${myLeaves}">
+                                        <td th:text="${leave.leaveType}" class="fw-medium text-dark"></td>
+                                        <td th:text="${leave.startDate}"></td>
+                                        <td th:text="${leave.endDate}"></td>
+                                        <td>
+                                            <span th:text="${leave.status}"
+                                                  th:class="${leave.status == 'APPROVED' ? 'badge badge-success-clean' : (leave.status == 'REJECTED' ? 'badge badge-danger-clean' : 'badge badge-warning-clean')}">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <!-- Fallback empty state handling if no history exists -->
+                                    <tr th:if="${#lists.isEmpty(myLeaves)}">
+                                        <td colspan="4" class="text-center py-4 text-muted">No leave history found.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER COPYRIGHT SECTION -->
+            <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">
+                <p class="mb-0">Copyright &copy; 2026 Bluethink IT Consulting Pvt. Ltd. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle for Dropdown Animations -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

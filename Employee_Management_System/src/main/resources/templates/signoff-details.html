@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signoff Details</title>
+    <!-- Aapke bootstrap aur font-awesome ke links yahan rahenge -->
+</head>
+<body>
+
+<div class="d-flex">
+    <!-- Sidebar Fragment Include Kiya -->
+    <div th:replace="~{fragments/sidebar :: sidebar-component}"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-content p-4 w-100">
+        <div class="container-fluid bg-white rounded-3 border p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold m-0 text-dark">
+                    <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>My Signoff & Attendance Logs
+                </h5>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle border" style="font-size: 14px;">
+                    <thead class="table-light text-muted" style="font-size: 12px; text-transform: uppercase;">
+                    <tr>
+                        <th style="width: 8%;">S.No.</th>
+                        <th>Login Time</th>
+                        <th>Logout Time</th>
+                        <th>Work Hours</th>
+                        <th>Location Mode</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Loop through attendance logs -->
+                    <tr th:each="log, stat : ${attendanceLogs}">
+                        <td class="fw-bold text-muted" th:text="${stat.count}">1</td>
+                        <td th:text="${log.loginTime != null ? log.loginTime : '-'}">09:30 AM, 07 Jul</td>
+                        <td th:text="${log.logoutTime != null ? log.logoutTime : 'Still Logged In'}">06:30 PM, 07 Jul</td>
+                        <td>
+                                <span class="badge bg-success-subtle text-success fw-medium"
+                                      th:text="${log.workHours != null ? log.workHours : 'In Progress...'}">
+                                    9h 0m
+                                </span>
+                        </td>
+                        <td>
+                            <!-- WFH ya Office badge style -->
+                            <span th:classappend="${log.workMode == 'WFH'} ? 'bg-info-subtle text-info' : 'bg-warning-subtle text-warning'"
+                                  class="badge rounded-1 fw-semibold"
+                                  th:text="${log.workMode}">Office</span>
+                        </td>
+                    </tr>
+                    <!-- If list is empty -->
+                    <tr th:if="${#lists.isEmpty(attendanceLogs)}">
+                        <td colspan="5" class="text-center text-muted py-4">No logs found for your profile.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
