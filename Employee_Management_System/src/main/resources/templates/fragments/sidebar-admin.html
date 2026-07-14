@@ -1,0 +1,381 @@
+<!-- Sidebar Fragment - Styles are in dashboard.html -->
+
+<!-- ============================================================ -->
+<!-- SIDEBAR FRAGMENT – #D1D5DB TEXT COLOR FOR ALL TEXT           -->
+<!-- ============================================================ -->
+<aside th:fragment="sidebar-component" class="sidebar" xmlns:th="http://www.thymeleaf.org">
+
+    <Style>
+        /* ===== SIDEBAR STYLES ===== */
+        .sidebar {
+            width: 270px;
+            min-width: 260px;
+            background-color: #1e293b !important;
+            color: #fff !important;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            overflow-y: auto !important;
+            border-right: 1px solid #334155;
+            font-family: 'Inter', system-ui, sans-serif;
+
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Chrome, Safari, Opera ke liye scroll bar chhupana */
+        .sidebar::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .sidebar-brand {
+            padding: 0 1.5rem 1.8rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.2rem;
+        }
+
+        .sidebar-brand a {
+            padding-top: 27px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #D1D5DB;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-brand a i {
+            font-size: 1.6rem;
+            color: #60A5FA;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0 0.75rem;
+            margin: 0;
+            flex: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+
+        .menu-title {
+            color: #9CA3AF;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 1.2rem 1.5rem 0.5rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-title:first-of-type {
+            border-top: none;
+            margin-top: 0.5rem;
+        }
+
+        .sidebar-menu li a,
+        .sidebar-menu li .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.80rem;
+            color: #D1D5DB;
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            width: 100%;
+            transition: background 0.25s, color 0.25s;
+            cursor: pointer;
+        }
+
+        .sidebar-menu li a i,
+        .sidebar-menu li .dropdown-trigger i {
+            width: 20px;
+            font-size: 1.1rem;
+            color: #9CA3AF;
+            transition: color 0.25s;
+        }
+
+        .sidebar-menu li a span,
+        .sidebar-menu li .dropdown-trigger span {
+            flex: 1;
+            text-align: left;
+        }
+
+        .arrow-icon {
+            font-size: 0.75rem;
+            transition: transform 0.25s ease;
+            color: #9CA3AF;
+        }
+
+        .sidebar-menu li a:hover,
+        .sidebar-menu li .dropdown-trigger:hover {
+            background: #334155 !important;
+            color: #FFFFFF;
+        }
+
+        .sidebar-menu li a:hover i,
+        .sidebar-menu li .dropdown-trigger:hover i {
+            color: #FFFFFF !important;
+        }
+
+        .sidebar-menu li a:hover .arrow-icon,
+        .sidebar-menu li .dropdown-trigger:hover .arrow-icon {
+            color: #FFFFFF !important;
+        }
+
+        .sidebar-menu li.active > a {
+            background: #334155 !important;
+            color: #FFFFFF;
+        }
+
+        .sidebar-menu li.active > a i {
+            color: #FFFFFF !important;
+        }
+
+        .submenu {
+            list-style: none;
+            padding-left: 1.8rem;
+            margin: 6px 0 6px 0;
+        }
+
+        .submenu li {
+            margin-bottom: 2px;
+        }
+
+        .submenu li a {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem 0.5rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: #D1D5DB;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+            gap: 8px;
+        }
+
+        .submenu li a::before {
+            content: "•";
+            font-size: 1.2rem;
+            color: #9CA3AF;
+            margin-right: 6px;
+        }
+
+        .submenu li a:hover {
+            background: #1E40AF;
+            color: #FFFFFF;
+        }
+
+        .submenu li a:hover::before {
+            color: #FFFFFF;
+        }
+
+        .submenu li.active-sub a {
+            background: #2563EB;
+            color: #FFFFFF;
+        }
+
+        .submenu li.active-sub a::before {
+            color: #FFFFFF;
+        }
+
+        .collapse {
+            transition: height 0.2s ease;
+        }
+
+        .dropdown-trigger[aria-expanded="true"] .arrow-icon {
+            transform: rotate(90deg);
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem 1.5rem 0.2rem;
+            font-size: 0.7rem;
+            color: #D1D5DB;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: 0.8rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                position: relative;
+                left: 0;
+                top: 0;
+            }
+        }
+    </Style>
+
+    <!-- Brand / Logo -->
+    <div class="sidebar-brand">
+        <a th:href="@{/admin/dashboard}">
+            <i class="fa-solid fa-square-poll-horizontal"></i>
+            BlueThink Inc.
+        </a>
+    </div>
+
+    <ul class="sidebar-menu">
+
+        <!-- ===== DASHBOARD ===== -->
+        <li th:classappend="${currentPage == 'dashboard'} ? 'active'">
+            <a th:href="@{/admin/dashboard}">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+
+        <li>
+            <button class="dropdown-trigger"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#employeeSubmenu"
+                    aria-expanded="false">
+                <i class="fa-solid fa-users"></i>
+                <span>Employee Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
+            </button>
+
+            <div class="collapse" id="employeeSubmenu">
+                <ul class="submenu">
+                    <li>
+                        <a th:href="@{/admin/departments/add}">
+                            Add Departments
+                        </a>
+                    </li><li>
+                        <a th:href="@{/admin/departments/designations/add}">
+                            Manage Designations
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/employees/add}">
+                            Add Employee
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/employee-directory}">
+                            Employee Directory
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/employee-status}">
+                            Employee Status
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+        <!-- ===== DIVIDER: INTEGRATIONS (using .menu-title) ===== -->
+        <li class="menu-title">INTEGRATIONS</li>
+
+        <!-- ===== ATTENDANCE RECORDS ===== -->
+        <li th:classappend="${currentPage == 'attendanceRecords'} ? 'active'">
+            <a th:href="@{/admin/attendance-records}">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Attendance Records</span>
+            </a>
+        </li>
+
+        <!-- ===== LEAVE RECORDS ===== -->
+        <li th:classappend="${currentPage == 'leaveRecords'} ? 'active'">
+            <a th:href="@{/admin/leave-records}">
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <span>Leave Records</span>
+            </a>
+        </li>
+
+        <!-- ===== WFH REQUESTS ===== -->
+        <li th:classappend="${currentPage == 'wfhRequests'} ? 'active'">
+            <a th:href="@{/admin/wfh-requests}">
+                <i class="fa-solid fa-house-laptop"></i>
+                <span>WFH Requests</span>
+            </a>
+        </li>
+
+        <!-- ===== DIVIDER: PERFORMANCE ===== -->
+        <li class="menu-title">PERFORMANCE</li>
+
+        <!-- ===== PERFORMANCE REVIEWS ===== -->
+        <li th:classappend="${currentPage == 'performanceReviews'} ? 'active'">
+            <a th:href="@{/admin/performance-reviews}">
+                <i class="fa-solid fa-star"></i>
+                <span>Performance Reviews</span>
+            </a>
+        </li>
+
+        <!-- ===== REPORTS ===== -->
+        <li th:classappend="${currentPage == 'reports'} ? 'active'">
+            <a th:href="@{/admin/reports}">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Reports</span>
+            </a>
+        </li>
+
+        <!-- ===== SETTINGS ===== -->
+        <li th:classappend="${currentPage == 'settings'} ? 'active'">
+            <a th:href="@{/admin/settings}">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+
+    </ul>
+
+    <!-- footer -->
+    <div class="sidebar-footer">
+        <span>HRMS v2.0</span>
+    </div>
+</aside>
+
+<script th:inline="javascript">
+(function() {
+    // rotate arrow on page load if collapse is open
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.collapse.show').forEach(function(collapseEl) {
+            const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
+            if (trigger) {
+                const arrow = trigger.querySelector('.arrow-icon');
+                if (arrow) arrow.style.transform = 'rotate(90deg)';
+            }
+        });
+
+        // listen to show/hide events
+        document.querySelectorAll('.collapse').forEach(function(collapseEl) {
+            collapseEl.addEventListener('show.bs.collapse', function() {
+                const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
+                if (trigger) {
+                    const arrow = trigger.querySelector('.arrow-icon');
+                    if (arrow) arrow.style.transform = 'rotate(90deg)';
+                }
+            });
+            collapseEl.addEventListener('hide.bs.collapse', function() {
+                const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
+                if (trigger) {
+                    const arrow = trigger.querySelector('.arrow-icon');
+                    if (arrow) arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+    });
+})();
+</script>

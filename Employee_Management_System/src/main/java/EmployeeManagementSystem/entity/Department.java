@@ -1,0 +1,57 @@
+package EmployeeManagementSystem.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "departments")
+@Data
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String departmentName;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "status")
+    private String status = "ACTIVE";
+
+    @Column(name = "created_at")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime updatedAt;
+
+    // Designations related to this department
+    @ElementCollection
+    @CollectionTable(name = "department_designations",
+            joinColumns = @JoinColumn(name = "department_id"))
+    @Column(name = "designation")
+    private List<String> designations = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        if (status == null) {
+            status = "ACTIVE";
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+}

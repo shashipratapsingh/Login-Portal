@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signoff Details | HRMS</title>
+    <!-- Bootstrap 5.3.3 & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4ff;
+        }
+        .main-content {
+            margin-left: 260px; /* Adjust according to your sidebar width */
+            flex-grow: 1;
+            padding: 32px 40px;
+        }
+        @media (max-width: 768px) {
+            .main-content { margin-left: 0; padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="d-flex min-vh-100">
+    <!-- Sidebar Fragment Include Kiya -->
+    <aside th:replace="~{fragments/sidebar :: sidebar-component}"></aside>
+
+    <!-- Main Content Area Fix -->
+    <main class="main-content">
+        <div class="container-fluid bg-white rounded-3 border p-4 shadow-sm">
+
+            <!-- Header Section -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold m-0 text-dark">
+                    <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>Working Hour Details
+                </h5>
+            </div>
+
+            <!-- Table Block -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle border" style="font-size: 14px;">
+                    <thead class="table-light text-muted" style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <tr>
+                        <th style="width: 8%;">S.No.</th>
+                        <th>Login Time</th>
+                        <th>Logout Time</th>
+                        <th>Work Hours</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Loop through attendance logs -->
+                    <tr th:each="log, stat : ${attendanceLogs}">
+                        <td class="fw-bold text-muted" th:text="${stat.count}">1</td>
+
+                        <!-- Login Time -->
+                        <td th:text="${log.loginTime != null ? #temporals.format(log.loginTime,'dd MMM yyyy hh:mm a') : '-'}">09:30 AM, 07 Jul</td>
+
+                        <!-- Logout Time -->
+                        <td th:text="${log.logoutTime != null ? #temporals.format(log.logoutTime,'hh:mm a') : 'Still Logged In'}">06:30 PM, 07 Jul</td>
+
+                        <!-- Working Hours Fix -->
+                        <td>
+                            <span class="badge bg-success-subtle text-success fw-medium"
+                                  th:text="${log.workingHours != null ? #numbers.formatDecimal(log.workingHours, 1, 2) + ' hrs' : 'In Progress'}">
+                                    9.00 hrs
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    <!-- If list is empty -->
+                    <tr th:if="${#lists.isEmpty(attendanceLogs)}">
+                        <td colspan="5" class="text-center py-5 text-muted fw-medium">
+                            <i class="fa-regular fa-folder-open d-block fs-3 mb-2 text-secondary"></i>
+                            No attendance records found.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Success</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f5f7fa;}
+        .card { background: white; padding: 30px; display: inline-block; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .highlight { font-weight: bold; color: #4a90e2; font-size: 18px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2 th:text="${message}" style="color: green;"></h2>
+    <p>Please note down your login credentials:</p>
+    <p><strong>Your User ID:</strong> <span class="highlight" th:text="${generatedId}"></span></p>
+    <p><strong>Temporary Password:</strong> <span class="highlight" th:text="${generatedPassword}"></span></p>
+    <br>
+    <a th:href="@{/auth/loginPage}" style="text-decoration: none; background: #4a90e2; color: white; padding: 10px 20px; border-radius: 5px;">Go to Login</a>
+</div>
+</body>
+</html>
