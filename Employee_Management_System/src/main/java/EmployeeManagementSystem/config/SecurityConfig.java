@@ -67,6 +67,13 @@ public class SecurityConfig {
                                 "/manager/profile"
                         ).hasRole("MANAGER")
 
+                                .requestMatchers(
+                                        "/css/**",
+                                        "/js/**",
+                                        "/img/**",
+                                        "/images/**"
+                                ).permitAll()
+
                         .requestMatchers(
                                 "/leave/manage",
                                 "/leave/status/**"
