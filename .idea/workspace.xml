@@ -5,70 +5,90 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ca4cfcf-4f82-44cf-bad4-6da451122dc3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/403.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/attendance-form.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/attendance-list.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/department-form.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/department-list.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/employee-form.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/employee-list.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/employeeside-dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/forgot-password.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/leave-apply.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/leave-manage.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/login.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/manager-dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/manager-profile.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/notification.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/policies.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/profile-view.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/register-success.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/register.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/reset-password.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/salary-form.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/salary-list.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/salary-slip.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/signoff-details.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/timesheet-log.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/timesheet-manage.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/wfh-apply-page.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/constants/CalendarColors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/controller/AttendanceCalendarController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/dto/CalendarEventDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/entity/Holiday.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/repository/HolidayRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/service/AttendanceCalendarService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/service/AttendanceCalendarServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/admin/employee-management/add-department.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/controller/LeaveController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/controller/LeaveController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/entity/LeaveRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/entity/LeaveRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/entity/Timesheet.java" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/entity/Timesheet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/repository/LeaveRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/repository/LeaveRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/repository/TimesheetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/java/EmployeeManagementSystem/repository/TimesheetRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/403.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/403.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/attendance-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/attendance-form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/attendance-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/attendance-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/department-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/department-form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/department-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/department-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/employee-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/employee-form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/employee-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/employee-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/employeeside-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/employeeside-dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/forgot-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/forgot-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/leave-apply.css" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/static/css/leave-apply.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/leave-apply.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/leave-apply.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/leave-manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/leave-manage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/manager-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/manager-dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/manager-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/manager-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/notification.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/policies.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/policies.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/profile-view.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/profile-view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/register-success.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/register-success.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/reset-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/reset-password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/salary-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/salary-form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/salary-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/salary-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/salary-slip.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/salary-slip.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/signoff-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/signoff-details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/timesheet-log.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/timesheet-log.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/timesheet-manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/timesheet-manage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/wfh-apply-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/src/main/resources/templates/wfh-apply-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/AttendanceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/AttendanceController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/AttendanceTrackingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/AttendanceTrackingController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/DepartmentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/DepartmentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/EmployeeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/EmployeeController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/EmployeeProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/EmployeeProfileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/ProjectController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/ProjectController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/SidebarGlobalAdvice.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/controller/SidebarGlobalAdvice.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/dto/EmployeeCredentialsDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/dto/EmployeeCredentialsDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/AdminSalary.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Department.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Department.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Employee.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Employee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/EmployeeProfile.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/EmployeeProfile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Project.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Project.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/RegisterEmployee.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/RegisterEmployee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Salary.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/Salary.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/SalaryGenerate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/WfhRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/entity/WfhRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/AttendanceTrackingServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/AttendanceTrackingServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/DashboardServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/DashboardServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/EmployeeProfileServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/EmployeeProfileServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/EmployeeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/EmployeeServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/ProjectServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/ProjectServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/SalaryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/EmployeeManagementSystem/service/SalaryServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/static/css/leave-apply.css" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/static/css/leave-apply.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/403.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/403.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/attendance-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/attendance-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/attendance-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/attendance-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/department-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/department-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/department-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/department-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/employee-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/employee-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/employee-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/employee-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/employeeside-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/employeeside-dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/forgot-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/forgot-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/leave-apply.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/leave-apply.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/leave-manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/leave-manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/manager-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/manager-dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/manager-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/manager-profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/notification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/policies.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/policies.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/profile-view.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/profile-view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/register-success.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/register-success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/reset-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/reset-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/salary-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/salary-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/salary-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/salary-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/salary-slip.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/salary-slip.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/signoff-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/signoff-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/timesheet-log.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/timesheet-log.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/timesheet-manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/timesheet-manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/wfh-apply-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/Employee_Management_System/target/classes/templates/wfh-apply-page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/HP/Employee_Management_System" value="3FUo7Wi3g3TCtRf2Ixm6EHsja3Z" />
+    </persistenceIdMap>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -95,27 +115,43 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="3FUo7Wi3g3TCtRf2Ixm6EHsja3Z" />
+  <component name="ProjectSessionTemplates">
+    <option name="panelTemplate">
+      <template>
+        <option name="modeId" value="Agent" />
+        <option name="model">
+          <model>
+            <option name="modelType" value="builtin_id" />
+            <option name="modelValue" value="auto" />
+          </model>
+        </option>
+        <option name="targetType" value="BACKGROUND" />
+        <option name="worktreeMode" value="WORKSPACE" />
+      </template>
+    </option>
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.Employee_Management_System [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Employee_Management_System [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Employee_Management_System [validate].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.EmployeeManagementSystemApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/salary-slip/14072026&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/HP/Employee_Management_System&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.Employee_Management_System [clean].executor": "Run",
+    "Maven.Employee_Management_System [install].executor": "Run",
+    "Maven.Employee_Management_System [validate].executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.EmployeeManagementSystemApplication.executor": "Debug",
+    "copilot.chat.legacySessionMetadata.migrated": "true",
+    "git-widget-placeholder": "feature/deStructureProject-15072026",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/HP/Employee_Management_System",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\HP\Employee_Management_System\Employee_Management_System\src\main\resources\templates\admin\salary" />

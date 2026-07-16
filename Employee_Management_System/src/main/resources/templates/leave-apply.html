@@ -11,286 +11,17 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FullCalendar v6 -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/leave-apply.css}">
-
-<<<<<<< Updated upstream
-        body {
-            margin: 0;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-        }
-
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* --- Dashboard Sidebar Layout Styles --- */
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: #fff;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .sidebar-brand {
-            padding: 24px;
-            font-size: 18px;
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .sidebar-brand a {
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 20px 12px;
-            margin: 0;
-            flex-grow: 1;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 4px;
-        }
-
-        .sidebar-menu a, .sidebar-menu .dropdown-trigger {
-            display: flex;
-            align-items: center;
-            color: #94a3b8;
-            text-decoration: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-        }
-
-        .sidebar-menu a i, .sidebar-menu .dropdown-trigger i:first-child {
-            width: 20px;
-            margin-right: 12px;
-            font-size: 16px;
-        }
-
-        .sidebar-menu a:hover, .sidebar-menu li.active > a, .sidebar-menu .dropdown-trigger:hover {
-            background-color: var(--sidebar-hover);
-            color: #fff;
-        }
-
-        .arrow-icon {
-            margin-left: auto;
-            font-size: 11px;
-            transition: transform 0.2s ease;
-        }
-
-        .dropdown-trigger[aria-expanded="true"] .arrow-icon {
-            transform: rotate(90deg);
-        }
-
-        .submenu {
-            list-style: none;
-            padding-left: 0;
-            margin: 4px 0 8px 0;
-            background-color: var(--sidebar-submenu-bg);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .submenu a {
-            padding: 8px 16px 8px 48px;
-            font-size: 13px;
-            color: #94a3b8;
-        }
-
-        .submenu a:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-
-        /* --- Main Layout Frame Wrapper --- */
-        .main-content {
-            margin-left: 260px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            width: calc(100% - 260px);
-        }
-
-        .content-body {
-            padding: 40px;
-        }
-
-        /* --- Leave Cards & Panels (Synced with Profile UI) --- */
-        .section-card {
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-            margin-bottom: 24px;
-            height: 100%;
-            transition: box-shadow 0.2s ease;
-        }
-
-        .section-card:hover {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-
-        .form-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #475569;
-            letter-spacing: 0.3px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-
-        .form-control, .form-select {
-            background: #ffffff !important;
-            border: 1px solid #cbd5e1 !important;
-            color: #0f172a !important;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 0.95rem;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--profile-primary) !important;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
-        }
-
-        .section-title {
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            letter-spacing: 0.5px;
-            color: #1e1b4b;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .section-title i {
-            color: var(--profile-primary);
-        }
-
-        .btn-custom-dashboard {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            color: #475569;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-custom-dashboard:hover {
-            background: #f1f5f9;
-            color: #0f172a;
-            border-color: #94a3b8;
-        }
-
-        .btn-submit-profile {
-            background: var(--profile-primary);
-            color: white;
-            border-radius: 8px;
-            padding: 12px 40px;
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-            border: none;
-        }
-
-        .btn-submit-profile:hover {
-            background: #4338ca;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-            color: white;
-        }
-
-        /* Custom Styling for Clean Table */
-        .table-responsive-custom {
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            background-color: #f8fafc;
-            color: #64748b;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-            padding: 14px 16px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .table tbody td {
-            padding: 16px;
-            vertical-align: middle;
-            color: #334155;
-            font-size: 0.95rem;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: #f8fafc;
-        }
-
-        /* Clean Badges Matching Dashboard Tone */
-        .badge {
-            padding: 6px 12px;
-            font-weight: 500;
-            border-radius: 6px;
-            font-size: 0.8rem;
-        }
-        .badge-success-clean { background-color: #ecfdf5; color: #065f46; border: 1px solid #10b981; }
-        .badge-danger-clean { background-color: #fef2f2; color: #991b1b; border: 1px solid #f87171; }
-        .badge-warning-clean { background-color: #fffbeb; color: #92400e; border: 1px solid #fbbf24; }
-
-        .alert-success {
-            background-color: #ecfdf5 !important;
-            border: 1px solid #10b981 !important;
-            color: #065f46 !important;
-        }
-    </style>
-=======
->>>>>>> Stashed changes
 </head>
 
 <body>
 
 <div class="dashboard-container">
 
-    <!-- SIDEBAR WITH DROPDOWNS -->
+    <!-- SIDEBAR -->
     <aside th:replace="~{fragments/sidebar :: sidebar-component}"></aside>
 
     <!-- MAIN INTERFACE WRAPPER -->
@@ -315,6 +46,7 @@
                     <i class="fa-solid fa-circle-check me-2 fs-5 align-middle"></i> Leave applied successfully!
                 </div>
 
+                <!-- TWO COLUMN: Form + History -->
                 <div class="row items-stretch">
                     <!-- Column 1: Leave Application Form -->
                     <div class="col-xl-5 col-lg-6 mb-4">
@@ -364,7 +96,7 @@
                             </h4>
 
                             <div class="table-responsive-custom">
-                                <table class="table table-hover align-middle">
+                                <table id="historyTable" class="table table-hover align-middle">
                                     <thead>
                                     <tr>
                                         <th>Type</th>
@@ -384,7 +116,6 @@
                                             </span>
                                         </td>
                                     </tr>
-                                    <!-- Fallback empty state handling if no history exists -->
                                     <tr th:if="${#lists.isEmpty(myLeaves)}">
                                         <td colspan="4" class="text-center py-4 text-muted">No leave history found.</td>
                                     </tr>
@@ -395,9 +126,33 @@
                     </div>
                 </div>
 
+                <!-- CALENDAR SECTION (Full Width) -->
+                <div class="section-card">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-calendar-days me-2 opacity-75"></i>Attendance Calendar
+                    </h4>
+
+                    <!-- Legend -->
+                    <div class="calendar-legend">
+                        <span class="legend-item"><span class="legend-swatch swatch-present"></span> Present</span>
+                        <span class="legend-item"><span class="legend-swatch swatch-absent"></span> Absent</span>
+                        <span class="legend-item"><span class="legend-swatch swatch-leave"></span> Leave</span>
+                        <span class="legend-item"><span class="legend-swatch swatch-holiday"></span> Holiday</span>
+                        <span class="legend-item"><span class="legend-swatch swatch-weekend"></span> Weekend</span>
+                    </div>
+
+                    <!-- HIDDEN EMPLOYEE ID - CRITICAL FOR API CALLS -->
+                    <input type="hidden"
+                           id="employeeId"
+                           th:value="${employeeId}">
+
+                    <!-- FullCalendar container -->
+                    <div id="fullcalendar-container"></div>
+                </div>
+
             </div>
 
-            <!-- FOOTER COPYRIGHT SECTION -->
+            <!-- FOOTER -->
             <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">
                 <p class="mb-0">Copyright &copy; 2026 Bluethink IT Consulting Pvt. Ltd. All rights reserved.</p>
             </footer>
@@ -405,7 +160,134 @@
     </div>
 </div>
 
-<!-- Bootstrap JS Bundle for Dropdown Animations -->
+<!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- FullCalendar v6 JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+<!-- CALENDAR SCRIPT - Loads data from REST API -->
+<script>
+    let calendar;
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const calendarEl =
+            document.getElementById('fullcalendar-container');
+
+        calendar = new FullCalendar.Calendar(calendarEl, {
+
+            initialView: 'dayGridMonth',
+
+            height: 'auto',
+
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth'
+            },
+
+            eventDisplay: 'block',
+
+            dayMaxEvents: true,
+
+            eventDidMount: function(info) {
+
+                // Tooltip on hover
+                info.el.title = info.event.title;
+
+                info.el.style.fontSize = '0.7rem';
+                info.el.style.fontWeight = '600';
+                info.el.style.padding = '1px 4px';
+                info.el.style.borderRadius = '4px';
+                info.el.style.textAlign = 'center';
+                info.el.style.minHeight = '20px';
+            },
+
+            datesSet: function() {
+
+                const currentDate =
+                    calendar.getDate();
+
+                const month =
+                    currentDate.getMonth() + 1;
+
+                const year =
+                    currentDate.getFullYear();
+
+                loadAttendanceEvents(
+                    month,
+                    year
+                );
+            }
+        });
+
+        calendar.render();
+    });
+
+    function loadAttendanceEvents(
+            month,
+            year
+    ) {
+
+        const employeeIdElement =
+            document.getElementById('employeeId');
+
+        if (!employeeIdElement) {
+            console.error('Employee ID element not found');
+            return;
+        }
+
+        const employeeId = employeeIdElement.value;
+
+        if (!employeeId) {
+            console.error('Employee ID value is empty');
+            return;
+        }
+
+        fetch(
+            `/api/calendar/${employeeId}?year=${year}&month=${month}`
+        )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(events => {
+
+            calendar.removeAllEvents();
+
+            events.forEach(event => {
+
+                calendar.addEvent({
+
+                    title: event.title,
+
+                    start: event.start,
+
+                    color: event.color,
+
+                    textColor: '#ffffff',
+
+                    allDay: true
+                });
+
+            });
+
+        })
+        .catch(error => {
+
+            console.error(
+                'Calendar Load Error:',
+                error
+            );
+
+            // Optionally show a user-friendly message
+            // You could display a toast notification here
+        });
+    }
+</script>
+
 </body>
 </html>
