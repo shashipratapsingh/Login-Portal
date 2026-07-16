@@ -264,7 +264,7 @@
             </button>
             <div class="collapse" id="profileSubmenu">
                 <ul class="submenu">
-                    <li><a th:href="@{/profile/view}">View Profile</a></li>
+                    <li><a th:href="@{/employee/profile/view}">View Profile</a></li>
                 </ul>
             </div>
         </li>
@@ -277,7 +277,7 @@
             </button>
             <div class="collapse" id="salarySubmenu">
                 <ul class="submenu">
-                    <li><a th:href="@{/salary/slip/{id}(id=${loggedInEmpId})}">View Salary</a></li>
+                    <li><a th:href="@{/employee/salary/slip/{id}(id=${loggedInEmpId})}">View Salary</a></li>
                 </ul>
             </div>
         </li>
@@ -291,7 +291,7 @@
             <a th:href="@{/employee/wfh/apply}"><i class="fa-solid fa-house-laptop"></i>Work From Home</a>
         </li>
         <li th:classappend="${currentPage == 'signoff'} ? 'active'">
-            <a th:href="@{/attendance/signoff-logs}">
+            <a th:href="@{/employee/attendance/signoff-logs}">
                 <i class="fa-solid fa-right-from-bracket text-danger"></i>
                 <span>Signoff Logs</span>
             </a>

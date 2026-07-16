@@ -41,46 +41,26 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/access-denied","/profile/**","/employees/**").permitAll()
-
-                        // PUBLIC ENDPOINTS
-                        .requestMatchers("/auth/**", "/access-denied", "/profile/**").permitAll()
-                        .requestMatchers("/admin/employees").permitAll()
-                        .requestMatchers("/admin/**").permitAll()
-//                        .requestMatchers("/admin/salary/salary-dashboard").hasRole("ADMIN")
-                        .requestMatchers("/admin/all-profiles-as-employees").permitAll()
-                        .requestMatchers("/admin/all/empployees").permitAll()
-                                .requestMatchers("/admin/departments/**").permitAll()
-                        .requestMatchers("/admin/salary/salary-dashboard").permitAll()
-                        .requestMatchers("/notifications/**").permitAll()
-                        .requestMatchers("/employee/**").permitAll()
-                        .requestMatchers("/employee/attendance-tracking").permitAll()
-                        .requestMatchers("/employee/**","/salary/slip/**","/attendance/signoff-logs").hasRole("EMPLOYEE")
-
-                        .requestMatchers("/admin/**").permitAll()
-
-                        .requestMatchers(
-                                "/leave/manage",
-                                "/leave/status/**",
-                                "/timesheet/manage",
-                                "/timesheet/status/**",
-                                "/manager/profile"
-                        ).hasRole("MANAGER")
-
-                        .requestMatchers(
-                                "/leave/manage",
-                                "/leave/status/**"
-                        ).permitAll()
-
-
-                        .requestMatchers("/leave/apply", "/leave/submit").authenticated()
-
+                        .requestMatchers("/auth/**", "/favicon.ico","/access-denied").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/employee/**","/employee/profile/**","/salary/slip/**","/employee/signoff-logs").hasRole("EMPLOYEE")
+                        .requestMatchers("/leave/manage", "/leave/status/**", "/timesheet/manage", "/timesheet/status/**", "/manager/profile").hasRole("MANAGER")
                         .anyRequest().authenticated()
                 )
 
-                // ✅ IMPORTANT FIX: no redirect (prevents response committed error)
                 .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(accessDeniedHandler())
+
+                        .authenticationEntryPoint((request, response, authException) -> {
+
+                            response.sendRedirect("/auth/loginPage?expired=true");
+
+                        })
+
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+
+                            response.sendRedirect("/auth/access-denied");
+
+                        })
                 )
 
                 .addFilterBefore(jwtAuthenticationFilter,

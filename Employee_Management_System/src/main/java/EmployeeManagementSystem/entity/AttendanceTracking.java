@@ -15,7 +15,7 @@ public class AttendanceTracking {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long employeeId;
+    private String employeeId;
     private String employeeName;
     private LocalDate date;
     private LocalDateTime loginTime;

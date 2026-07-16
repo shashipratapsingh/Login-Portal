@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/profile")
+@RequestMapping("/employee/profile")
 @RequiredArgsConstructor
 public class ProfileController {
     private final EmployeeProfileService service;
@@ -21,8 +21,8 @@ public class ProfileController {
     @GetMapping("/view")
     public String viewProfile(Model model){
         Authentication auth=SecurityContextHolder.getContext().getAuthentication();
-        String currentEmplId=auth.getName();
-        EmployeeProfile profile=service.getProfileByUserId(currentEmplId);
+        String currentEmplId=auth. getName();
+        EmployeeProfile profile = service.getProfileByUserId(currentEmplId);
         model.addAttribute("profile",profile);
         return "profile-view";
     }

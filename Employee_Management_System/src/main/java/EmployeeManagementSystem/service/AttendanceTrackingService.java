@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.entity.Attendance;
 import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.Employee;
 
@@ -14,4 +15,5 @@ public interface AttendanceTrackingService {
 
     List<AttendanceTracking> getAttendanceHistory(Long employeeId);
     LocalDateTime getPunchInTimeForToday(String employeeId);
+
 }

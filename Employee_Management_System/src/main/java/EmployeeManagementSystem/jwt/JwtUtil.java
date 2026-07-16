@@ -1,14 +1,19 @@
 package EmployeeManagementSystem.jwt;
 
+import EmployeeManagementSystem.entity.UserSession;
+import EmployeeManagementSystem.repository.UserSessionRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
 
     private static final String SECRET_KEY =
@@ -67,4 +72,5 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
 }

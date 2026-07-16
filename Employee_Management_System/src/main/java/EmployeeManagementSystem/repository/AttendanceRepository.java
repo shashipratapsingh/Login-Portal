@@ -3,6 +3,7 @@ package EmployeeManagementSystem.repository;
 //import com.ems.entity.Attendance;
 //import com.ems.entity.Employee;
 import EmployeeManagementSystem.entity.Attendance;
+import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.enums.WorkMode;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,6 +30,6 @@ public interface AttendanceRepository
             LocalDate date);
     List<Attendance> findByAttendanceDate(LocalDate attendanceDate);
     List<Attendance> findByAttendanceDateAndWorkMode(LocalDate attendanceDate, WorkMode workMode);
-    List<Attendance> findByEmployeeId(String employeeId);
+
 
 }
