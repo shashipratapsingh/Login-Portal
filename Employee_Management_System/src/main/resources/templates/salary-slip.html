@@ -12,6 +12,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<<<<<<< Updated upstream
     <style>
         :root {
             --sidebar-bg: #1e293b;
@@ -311,6 +312,11 @@
             .salary-slip { padding: 20px; }
         }
     </style>
+=======
+    <link rel="stylesheet" th:href="@{/css/salary-slip.css}">
+
+
+>>>>>>> Stashed changes
 </head>
 
 <body>
@@ -360,6 +366,7 @@
                             <span class="label">Month:</span>
                             <span class="value" th:text="${slip.month}">July</span>
                         </div>
+<<<<<<< Updated upstream
                         <div style="margin-top: 8px;">
                             <span class="label">Year:</span>
                             <span class="value" th:text="${slip.year}">2026</span>
@@ -473,6 +480,50 @@
                 </div>
 
             </div>
+=======
+                        <div class="row-group">
+                            <div class="detail-row">
+                                <span class="label">Name of Bank:</span>
+                                <span class="value" th:text="${bankName}">N/A</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Date:</span>
+                                <span class="value" th:text="${#dates.format(salary.paymentDate, 'dd/MM/yyyy')}">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Signature Section -->
+                    <div class="signature-section">
+                        <div class="sign-item">
+                            <div class="sign-line"></div>
+                            <span class="sign-label">Signature of the Employee</span>
+                        </div>
+                        <div class="sign-item">
+                            <div class="sign-line"></div>
+                            <span class="sign-label">Director</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- NO DATA FOUND -->
+<!--            <div th:if="${salary == null}">-->
+<!--                <div class="salary-slip">-->
+<!--                    <div class="text-center py-5">-->
+<!--                        <i class="fa-solid fa-file-invoice fa-4x text-muted mb-3"></i>-->
+<!--                        <h3 class="text-danger">No Salary Data Found</h3>-->
+<!--                        <p class="text-muted">Please check the salary record ID or create a new salary record.</p>-->
+<!--                        <div class="mt-3">-->
+<!--                            <a href="/employee/salary/add" class="btn btn-success ms-2">-->
+<!--                                <i class="fa-solid fa-plus me-2"></i> Create New Salary-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+>>>>>>> Stashed changes
 
             <!-- Footer -->
             <footer class="mt-5 pt-4 text-center text-muted border-top no-print" style="font-size: 12px;">
