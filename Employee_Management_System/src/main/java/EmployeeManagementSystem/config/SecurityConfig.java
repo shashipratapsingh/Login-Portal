@@ -54,6 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/salary/salary-dashboard").permitAll()
                         .requestMatchers("/notifications/**").permitAll()
                         .requestMatchers("/employee/**").permitAll()
+                                .requestMatchers("/leave/apply", "/leave/submit").permitAll()
                         .requestMatchers("/employee/attendance-tracking").permitAll()
                         .requestMatchers("/employee/**","/salary/slip/**","/attendance/signoff-logs").hasRole("EMPLOYEE")
 
@@ -66,6 +67,13 @@ public class SecurityConfig {
                                 "/timesheet/status/**",
                                 "/manager/profile"
                         ).hasRole("MANAGER")
+
+                                .requestMatchers(
+                                        "/css/**",
+                                        "/js/**",
+                                        "/img/**",
+                                        "/images/**"
+                                ).permitAll()
 
                         .requestMatchers(
                                 "/leave/manage",
