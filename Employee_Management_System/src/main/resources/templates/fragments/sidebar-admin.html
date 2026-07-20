@@ -128,7 +128,7 @@
 
         .sidebar-menu li a:hover i,
         .sidebar-menu li .dropdown-trigger:hover i {
-            color: #FFFFFF !important;
+            color: #1E40AF !important;
         }
 
         .sidebar-menu li a:hover .arrow-icon,
@@ -241,6 +241,44 @@
             </a>
         </li>
 
+        <!--        ===Company Management-->
+        <li>
+            <button class="dropdown-trigger"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#companySubmenu"
+                    aria-expanded="false">
+                <i class="fa-solid fa-building"></i>
+                <span>Company Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
+            </button>
+
+            <div class="collapse" id="companySubmenu">
+                <ul class="submenu">
+                    <li>
+                        <a th:href="@{/admin/company/add}">
+                            Add Company
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/company/directory}">
+                            Company Directory
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/branches}">
+                            Branches
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/company/locations}">
+                            Locations
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
         <!-- ===== EMPLOYEE MANAGEMENT ===== -->
         <li>
             <button class="dropdown-trigger"
@@ -309,13 +347,72 @@
                         </a>
                     </li>
                     <li>
+                        <a th:href="@{/admin/projects/add}">
+                            Assign Employee
+                        </a>
+                    </li>
+                    <li>
                         <a th:href="@{/admin/projects/assigned}">
                             Assigned Projects
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/admin/projects/status}">
-                            Project Status
+                        <a th:href="@{/admin/projects/milestones}">
+                            Milestones
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+<!--  ====Payroll Management      -->
+        <!-- Payroll Management -->
+        <li>
+            <button class="dropdown-trigger"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#payRollSubmenu"
+                    aria-expanded="false">
+                <i class="fa-solid fa-money-bill"></i>
+                <span>Payroll Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
+            </button>
+
+            <div class="collapse" id="payRollSubmenu">
+                <ul class="submenu">
+                    <li>
+                        <a th:href="@{/admin/salary-structure/list}">
+                            Salary Structure
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary-structure/list}">
+                            Employee Salary
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary/payroll-processing}">
+                            Payroll Processing
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary/slip}">
+                            Salary Slip
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary/incentives}">
+                            Salary Incentives
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary/deductions}">
+                            Salary Deductions
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary/payroll-reports}">
+                            Payroll Reports
                         </a>
                     </li>
                 </ul>
