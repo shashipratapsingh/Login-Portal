@@ -18,11 +18,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Controller
 @RequestMapping("/admin/projects")
@@ -225,7 +225,6 @@ public class ProjectController {
     @ResponseBody
     public List<Map<String, Object>> getEmployeesByDepartment(@PathVariable Long departmentId) {
         System.out.println("=== Fetching employee profiles for department ID: " + departmentId);
-
         // Get department name from ID
         String departmentName = departmentService.getDepartmentById(departmentId).getDepartmentName();
         System.out.println("=== Department Name: " + departmentName);
