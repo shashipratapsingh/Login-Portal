@@ -6,6 +6,8 @@ import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.repository.AttendanceTrackingRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -25,10 +27,11 @@ public class AttendanceTrackingServiceImpl implements AttendanceTrackingService 
     public void markLogin(Employee employee) {
 
         System.out.println("===== markLogin Called =====");
-
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String emp=authentication.getName();
         AttendanceTracking attendanceTracking = new AttendanceTracking();
 
-        attendanceTracking.setEmployeeId(employee.getId());
+        attendanceTracking.setEmployeeId(emp);
         attendanceTracking.setEmployeeName(employee.getFirstName());
         attendanceTracking.setDate(LocalDate.now());
         attendanceTracking.setLoginTime(LocalDateTime.now());

@@ -1,9 +1,12 @@
 package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.entity.Attendance;
+import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.service.AttendanceService;
+import EmployeeManagementSystem.service.AttendanceTrackingService;
 import EmployeeManagementSystem.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/attendance")
+@RequestMapping("/employee/attendance")
+@RequiredArgsConstructor
 public class AttendanceController {
 
     @Autowired
@@ -22,6 +26,7 @@ public class AttendanceController {
 
     @Autowired
     private EmployeeService employeeService;
+    private final AttendanceTrackingService attendanceTrackingService;
 
     @GetMapping
     public String getAllAttendance(Model model) {
@@ -95,7 +100,8 @@ public class AttendanceController {
 
         // 1. Database se is employee ke saare attendance records nikalen
         // (Aap apne actual service/repository method ka naam use karein)
-        List<Attendance> logs = attendanceService.getAttendanceLogsByEmployeeId(employeeId);
+        List<AttendanceTracking> logs = attendanceService.getAttendanceLogsByEmployeeId(employeeId);
+        System.out.println("Logs Size = " + logs.size());
 
         model.addAttribute("attendanceLogs", logs);
         model.addAttribute("currentPage", "signoff"); // Sidebar ko active dikhane ke liye

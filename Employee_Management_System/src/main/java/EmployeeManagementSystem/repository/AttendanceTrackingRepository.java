@@ -22,4 +22,9 @@ public interface AttendanceTrackingRepository
     List<AttendanceTracking> findByEmployeeIdOrderByDateDesc(Long employeeId);
     //@Query("SELECT a FROM Attendance a WHERE a.employeeId = :empId AND FUNCTION('DATE', a.punchInTime) = CURRENT_DATE")
     Optional<Attendance> findTodayAttendanceByEmployeeId(@Param("empId") String empId);
+    //List<AttendanceTracking> findByEmployeeId(String employeeId);
+    List<AttendanceTracking> findByEmployeeIdOrderByDateDescLoginTimeAsc(String employeeId);
+    Optional<AttendanceTracking> findByEmployeeIdAndDate(String employeeId,
+                                                         LocalDate date);
+    AttendanceTracking findTopByEmployeeIdAndDateOrderByLoginTimeDesc(String employeeId, LocalDate date);
 }

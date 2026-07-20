@@ -1,6 +1,7 @@
 package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.entity.Attendance;
+import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.WfhRequest;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,6 @@ public interface AttendanceService {
     void deleteAttendance(Long id);
     List<Attendance> getTodayAttendance();
     List<Attendance> getTodayWFHEmployees();
-    List<Attendance> getAttendanceLogsByEmployeeId(String employeeId);
+    List<AttendanceTracking> getAttendanceLogsByEmployeeId(String employeeId);
 
 }

@@ -83,12 +83,27 @@ public class SecurityConfig {
 
                         .requestMatchers("/leave/apply", "/leave/submit").authenticated()
 
+                        .requestMatchers("/auth/**", "/favicon.ico","/access-denied").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/employee/**","/employee/profile/**","/salary/slip/**","/employee/signoff-logs").hasRole("EMPLOYEE")
+                        .requestMatchers("/leave/manage", "/leave/status/**", "/timesheet/manage", "/timesheet/status/**", "/manager/profile").hasRole("MANAGER")
                         .anyRequest().authenticated()
                 )
 
                 // ✅ IMPORTANT FIX: no redirect (prevents response committed error)
                 .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(accessDeniedHandler())
+
+                        .authenticationEntryPoint((request, response, authException) -> {
+
+                            response.sendRedirect("/auth/loginPage?expired=true");
+
+                        })
+
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+
+                            response.sendRedirect("/auth/access-denied");
+
+                        })
                 )
 
                 .addFilterBefore(jwtAuthenticationFilter,

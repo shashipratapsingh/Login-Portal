@@ -399,7 +399,9 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService {
 
     @Override
     public EmployeeProfile getProfileByUserId(String currentEmplId) {
-        return employeeProfileRepository.findByUserId(currentEmplId)
-                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with userId: " + currentEmplId));
+        EmployeeProfile profile= employeeProfileRepository.findByUserId(currentEmplId)
+                //.orElseThrow(() -> new RuntimeException("EmployeeProfile not found with userId: " + currentEmplId));
+                .orElse(null);
+        return profile;
     }
 }
