@@ -266,7 +266,7 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService {
             EmployeeProfile employee = getEmployeeProfileByUserId(userId);
 
             // Define upload directory
-            String uploadDir = "uploads/employee_photos/";
+            String uploadDir = "C:/New folder/uploadFile/";
             Path uploadPath = Paths.get(uploadDir);
 
             // Create directory if it doesn't exist
@@ -287,13 +287,12 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService {
             Files.write(filePath, photoFile.getBytes());
 
             // Update employee profile with photo path
-            String photoPath = filePath.toString();
-            employee.setPhoto(photoPath);
+            employee.setPhoto(fileName);
             employee.setUpdatedAt(LocalDateTime.now());
             employeeProfileRepository.save(employee);
 
             // Return the photo path
-            return photoPath;
+            return fileName;
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload photo: " + e.getMessage());
