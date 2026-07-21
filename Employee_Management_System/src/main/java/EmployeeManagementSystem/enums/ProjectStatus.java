@@ -1,4 +1,4 @@
-git package EmployeeManagementSystem.enums;
+ package EmployeeManagementSystem.enums;
 
 import lombok.Getter;
 
