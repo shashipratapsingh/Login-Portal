@@ -41,7 +41,7 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/favicon.ico","/access-denied").permitAll()
+                        .requestMatchers("/auth/**", "/css/**","/favicon.ico","/access-denied").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/employee/**","/employee/profile/**","/salary/slip/**","/employee/signoff-logs").hasRole("EMPLOYEE")
                         .requestMatchers("/leave/manage", "/leave/status/**", "/timesheet/manage", "/timesheet/status/**", "/manager/profile").hasRole("MANAGER")
