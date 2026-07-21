@@ -768,18 +768,38 @@
         const photoHidden = document.getElementById('photoHidden');
 
         avatarContainer.addEventListener('click', () => photoUpload.click());
-        photoUpload.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (!file.type.startsWith('image/')) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    profileImage.src = e.target.result;
-                    photoHidden.value = file.name;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        photoUpload.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("photo", file);
+
+    fetch("/employee/profile/upload-photo", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("Upload failed");
+        }
+        return res.text();
+    })
+    .then(fileName => {
+
+        profileImage.src =
+            "/storage/photos/" + fileName + "?t=" + new Date().getTime();
+
+        alert("Photo uploaded successfully.");
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Upload failed");
+    });
+
+});
     });
 </script>
 </body>
