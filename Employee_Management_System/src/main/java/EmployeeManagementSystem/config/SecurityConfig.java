@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.config;
 
+
 import EmployeeManagementSystem.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,11 +13,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -31,70 +36,116 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                // ===== DISABLE UNNECESSARY FEATURES =====
                 .csrf(csrf -> csrf.disable())
-
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
 
+                // ===== STATELESS SESSION =====
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
+                // ===== AUTHORIZATION RULES =====
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/access-denied","/profile/**","/employees/**").permitAll()
 
-                        // PUBLIC ENDPOINTS
-                        .requestMatchers("/auth/**", "/access-denied", "/profile/**").permitAll()
-                        .requestMatchers("/admin/employees").permitAll()
-                        .requestMatchers("/admin/**").permitAll()
-//                        .requestMatchers("/admin/salary/salary-dashboard").hasRole("ADMIN")
+                        // ----- PUBLIC ENDPOINTS (NO AUTHENTICATION REQUIRED) -----
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/access-denied").permitAll()
+                        .requestMatchers("/profile/**").permitAll()
                         .requestMatchers("/admin/all-profiles-as-employees").permitAll()
                         .requestMatchers("/admin/all/empployees").permitAll()
-                                .requestMatchers("/admin/departments/**").permitAll()
+                        .requestMatchers("/admin/departments/**").permitAll()
                         .requestMatchers("/admin/salary/salary-dashboard").permitAll()
                         .requestMatchers("/notifications/**").permitAll()
-                        .requestMatchers("/employee/**").permitAll()
-                                .requestMatchers("/leave/apply", "/leave/submit").permitAll()
-                        .requestMatchers("/employee/attendance-tracking").permitAll()
-                        .requestMatchers("/employee/**","/salary/slip/**","/attendance/signoff-logs").hasRole("EMPLOYEE")
+                        .requestMatchers("/error").permitAll()
 
-                        .requestMatchers("/admin/**").permitAll()
+                        // ----- STATIC RESOURCES -----
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/static/**").permitAll()
 
-                        .requestMatchers(
-                                "/leave/manage",
-                                "/leave/status/**",
-                                "/timesheet/manage",
-                                "/timesheet/status/**",
-                                "/manager/profile"
-                        ).hasRole("MANAGER")
+                        // ----- EMPLOYEE ENDPOINTS (ROLE_EMPLOYEE required) -----
+                        .requestMatchers("/employee/**").hasRole("EMPLOYEE")
+                        .requestMatchers("/salary/slip/**").hasRole("EMPLOYEE")
+                        .requestMatchers("/attendance/signoff-logs").hasRole("EMPLOYEE")
+                        .requestMatchers("/leave/apply").hasRole("EMPLOYEE")
+                        .requestMatchers("/leave/submit").hasRole("EMPLOYEE")
 
-                                .requestMatchers(
-                                        "/css/**",
-                                        "/js/**",
-                                        "/img/**",
-                                        "/images/**"
-                                ).permitAll()
+                        // ----- MANAGER ENDPOINTS (ROLE_MANAGER required) -----
+                        .requestMatchers("/leave/manage").hasRole("MANAGER")
+                        .requestMatchers("/leave/status/**").hasRole("MANAGER")
+                        .requestMatchers("/timesheet/manage").hasRole("MANAGER")
+                        .requestMatchers("/timesheet/status/**").hasRole("MANAGER")
+                        .requestMatchers("/manager/profile").hasRole("MANAGER")
 
-                        .requestMatchers(
-                                "/leave/manage",
-                                "/leave/status/**"
-                        ).permitAll()
+                        // ----- ADMIN ENDPOINTS (ROLE_ADMIN required) -----
+                        // Salary Structure (MOST SPECIFIC FIRST)
+                        .requestMatchers("/admin/salary-structure/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/salary/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/payroll/**").hasRole("ADMIN")
 
+                        // Company Management
+                        .requestMatchers("/admin/company/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/branches/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/company/locations/**").hasRole("ADMIN")
 
-                        .requestMatchers("/leave/apply", "/leave/submit").authenticated()
+                        // Employee Management
+                        .requestMatchers("/admin/employees/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/employee-directory/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/employee-status/**").hasRole("ADMIN")
 
+                        // Department & Designation
+                        .requestMatchers("/admin/departments/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/designations/**").hasRole("ADMIN")
+
+                        // Project Management
+                        .requestMatchers("/admin/projects/**").hasRole("ADMIN")
+
+                        // Attendance & Leave
+                        .requestMatchers("/admin/attendance-records/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/leave-records/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/wfh-requests/**").hasRole("ADMIN")
+
+                        // Performance
+                        .requestMatchers("/admin/performance-reviews/**").hasRole("ADMIN")
+
+                        // Reports & Settings
+                        .requestMatchers("/admin/reports/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/settings/**").hasRole("ADMIN")
+
+                        // Dashboard
+                        .requestMatchers("/admin/dashboard/**").hasRole("ADMIN")
+
+                        // ----- CATCH-ALL ADMIN ROUTE (LESS SPECIFIC) -----
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // ----- AUTHENTICATED USERS (ANY ROLE) -----
+                        .requestMatchers("/leave/**").authenticated()
+                        .requestMatchers("/timesheet/**").authenticated()
+
+                        // ----- ALL OTHER REQUESTS -----
                         .anyRequest().authenticated()
                 )
 
-                // ✅ IMPORTANT FIX: no redirect (prevents response committed error)
+                // ===== EXCEPTION HANDLING =====
                 .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authenticationEntryPoint())
                         .accessDeniedHandler(accessDeniedHandler())
                 )
 
-                .addFilterBefore(jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                // ===== ADD JWT FILTER =====
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, authException) -> {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"error\":\"Unauthorized - Please login\", \"timestamp\":\"" + System.currentTimeMillis() + "\"}");
+        };
     }
 
     @Bean
@@ -102,7 +153,8 @@ public class SecurityConfig {
         return (request, response, accessDeniedException) -> {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("application/json");
-            response.getWriter().write("{\"error\":\"Access Denied\"}");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"error\":\"Access Denied - Insufficient permissions\", \"timestamp\":\"" + System.currentTimeMillis() + "\"}");
         };
     }
 }
