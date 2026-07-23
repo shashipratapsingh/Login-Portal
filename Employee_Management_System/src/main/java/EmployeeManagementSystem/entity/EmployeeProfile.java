@@ -37,7 +37,7 @@ public class EmployeeProfile {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank(message = "Date of birth is required")
+    @NotNull(message = "Date of birth is required")
     @Column(name = "dob")
     private LocalDate dob;
 

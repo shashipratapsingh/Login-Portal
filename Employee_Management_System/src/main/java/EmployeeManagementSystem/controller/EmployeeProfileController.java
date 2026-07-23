@@ -158,15 +158,16 @@ public class EmployeeProfileController {
         employee.setEmail(profile.getEmail());
 
         // Parse date of birth (profile stores as String)
-        if (profile.getDob() != null && !profile.getDob().isEmpty()) {
-            try {
-                LocalDate dob = LocalDate.parse(profile.getDob(), DateTimeFormatter.ISO_LOCAL_DATE);
-                employee.setDateOfBirth(dob);
-            } catch (DateTimeParseException e) {
-                // fallback: try other formats if needed, or set to null
-                employee.setDateOfBirth(null);
-            }
-        }
+//        if (profile.getDob() != null && !(profile.getDob() != null)) {
+//            try {
+//                LocalDate dob = profile.getDob();
+//                employee.setDateOfBirth(dob);
+//            } catch (DateTimeParseException e) {
+//                // fallback: try other formats if needed, or set to null
+//                employee.setDateOfBirth(null);
+//            }
+//        }
+        employee.setDateOfBirth(profile.getDob());
 
         // Set joining date to today (or you can use a default)
         employee.setJoiningDate(LocalDate.now());
