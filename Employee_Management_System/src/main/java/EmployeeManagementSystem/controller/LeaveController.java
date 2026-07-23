@@ -70,7 +70,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/leave")
+@RequestMapping("/employee/leave")
 public class LeaveController {
 
     private final LeaveService leaveService;

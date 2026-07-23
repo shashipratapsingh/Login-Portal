@@ -277,15 +277,15 @@
             </button>
             <div class="collapse" id="salarySubmenu">
                 <ul class="submenu">
-                    <li><a th:href="@{/employee/salary/slip/{id}(id=${loggedInEmpId})}">View Salary</a></li>
+                    <li><a th:href="@{/employee/salary/salary-list(id=${loggedInEmpId})}">View Salary</a></li>
                 </ul>
             </div>
         </li>
         <li th:classappend="${currentPage == 'leave'} ? 'active'">
-            <a th:href="@{/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
+            <a th:href="@{/employee/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
         </li>
         <li th:classappend="${currentPage == 'timesheet'} ? 'active'">
-            <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
+            <a th:href="@{/employee/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
         </li>
         <li th:classappend="${currentPage == 'wfh'} ? 'active'">
             <a th:href="@{/employee/wfh/apply}"><i class="fa-solid fa-house-laptop"></i>Work From Home</a>

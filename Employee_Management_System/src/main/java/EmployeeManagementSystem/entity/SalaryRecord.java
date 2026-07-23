@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SalaryRecord {
+public class SalaryRecord{
     private String employeeId;
     private String employeeName;
     private String department;
