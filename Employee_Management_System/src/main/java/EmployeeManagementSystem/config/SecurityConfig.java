@@ -1,6 +1,7 @@
 package EmployeeManagementSystem.config;
 
 
+import EmployeeManagementSystem.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import EmployeeManagementSystem.jwt.JwtAuthenticationFilter;
 
 
 import jakarta.servlet.http.HttpServletResponse;

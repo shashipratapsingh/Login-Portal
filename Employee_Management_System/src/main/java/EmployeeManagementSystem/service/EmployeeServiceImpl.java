@@ -6,6 +6,7 @@ import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
 import EmployeeManagementSystem.repository.EmployeeRepository;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> getEmployeesByDepartment(Long departmentId) {
         return employeeRepository.findByDepartmentId(departmentId);
+    }
+
+    @Override
+    public @Nullable Object findAll() {
+        return employeeRepository.findAll();
     }
 
     @Override

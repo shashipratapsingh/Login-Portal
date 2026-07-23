@@ -506,7 +506,7 @@
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <h4 th:text="'Hi, ' + ${loggedInUser}">Hi, Sujit</h4>
+            <h4 th:text="'Hi, ' + (${loggedInUser} ?: 'Guest')">Hi, User</h4>
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
