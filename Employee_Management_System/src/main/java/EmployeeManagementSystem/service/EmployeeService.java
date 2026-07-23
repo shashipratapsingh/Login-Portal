@@ -6,6 +6,7 @@ import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.repository.EmployeeRepository;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -47,4 +48,5 @@ public interface EmployeeService {
     List<Employee> getEmployeesByDepartment(Long departmentId);
 
 
+    @Nullable Object findAll();
 }

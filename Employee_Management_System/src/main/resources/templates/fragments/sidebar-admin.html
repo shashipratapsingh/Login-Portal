@@ -403,6 +403,80 @@
                 </ul>
             </div>
         </li>
+        <!-- leave Management -->
+        <li>
+            <button class="dropdown-trigger"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#leaveSubmenu"
+                    aria-expanded="false">
+                <i class="fa-solid fa-money-bill"></i>
+                <span>Leave Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
+            </button>
+
+            <div class="collapse" id="leaveSubmenu">
+                <ul class="submenu">
+                    <li>
+                        <a th:href="@{/admin/leave/holidays}">
+                            Holiday Calendar
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/leave/requests}">
+                            Leave Request
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/leave/balance/adjust}">
+                            Adjust Leave
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/leave/types}">
+                            Leave Types
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/leave/policies}">
+                            Leave Policies
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+<!--        Attendance Management-->
+        <li>
+            <button class="dropdown-trigger"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#timesheetSubmenu"
+                    aria-expanded="false">
+                <i class="fa-solid fa-money-bill"></i>
+                <span>Timesheet Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
+            </button>
+
+            <div class="collapse" id="timesheetSubmenu">
+                <ul class="submenu">
+                    <li>
+                        <a th:href="@{/admin/salary-structure/list}">
+                            View Timesheets
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary/slip}">
+                            Add Timesheet
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/salary/incentives}">
+                            Export Timesheet Data
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
 
         <!-- ===== DIVIDER: INTEGRATIONS (using .menu-title) ===== -->
         <li class="menu-title">INTEGRATIONS</li>
