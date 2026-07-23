@@ -2,6 +2,7 @@ package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.dto.AnniversaryDTO;
 import EmployeeManagementSystem.dto.BirthdayDTO;
+import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.entity.RegisterEmployee;
@@ -45,6 +46,4 @@ public interface EmployeeService {
 
     // Fix: Change return type from Collection<Object> to List<Employee>
     List<Employee> getEmployeesByDepartment(Long departmentId);
-
-
 }

@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.dto.EmployeeCredentialsDTO;
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.repository.EmployeeProfileRepository;
@@ -69,4 +70,6 @@ public interface EmployeeProfileService {
     void softDeleteEmployee(Long id);
 
     EmployeeProfile getProfileByUserId(String currentEmplId);
+
+    public List<CelebrationDto> getTodayCelebrations();
 }
