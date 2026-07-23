@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Project</title>
+    <title>Project List</title>
 
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -140,35 +140,6 @@
             margin-right: 0.5rem;
         }
 
-        .form-label {
-            font-weight: 600;
-            color: #1a2639;
-            font-size: 0.9rem;
-        }
-
-        .required {
-            color: #d94a4a;
-        }
-
-        .form-control, .form-select {
-            border: 1px solid #e9edf4;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-            font-size: 0.9rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: #2a6df4;
-            box-shadow: 0 0 0 3px rgba(42, 109, 244, 0.1);
-        }
-
-        .form-text {
-            color: #6b7a8f;
-            font-size: 0.75rem;
-            margin-top: 0.3rem;
-        }
-
         .btn {
             font-weight: 500;
             padding: 0.6rem 1.5rem;
@@ -187,6 +158,18 @@
             background: #1a5cdb;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(42, 109, 244, 0.3);
+        }
+
+        .btn-success {
+            background: #28a745;
+            border: none;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
         }
 
         .btn-secondary {
@@ -223,6 +206,17 @@
 
         .btn-info:hover {
             background: #138496;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            border: none;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            color: #212529;
         }
 
         .status-badge {
@@ -333,10 +327,44 @@
             flex-wrap: wrap;
         }
 
-        .timestamp-text {
-            font-size: 0.7rem;
-            color: #6b7a8f;
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e9edf4;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            text-align: center;
+        }
+
+        .stat-card .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a2639;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.8rem;
+            color: #6b7a8f;
+            margin-top: 0.2rem;
+        }
+
+        .stat-card .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-card.active-stat .stat-icon { color: #28a745; }
+        .stat-card.completed-stat .stat-icon { color: #17a2b8; }
+        .stat-card.inprogress-stat .stat-icon { color: #ffc107; }
+        .stat-card.onhold-stat .stat-icon { color: #fd7e14; }
+        .stat-card.total-stat .stat-icon { color: #2a6df4; }
 
         @media (max-width: 768px) {
             .page-header {
@@ -348,6 +376,9 @@
             }
             .action-buttons {
                 flex-wrap: wrap;
+            }
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -363,12 +394,11 @@
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <h4><i class="fa-solid fa-plus-circle text-primary me-2"></i>Add New Project</h4>
+            <h4><i class="fa-solid fa-list-check text-primary me-2"></i>Project List</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a th:href="@{/admin/projects}">Projects</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Project</li>
+                    <li class="breadcrumb-item active" aria-current="page">Projects</li>
                 </ol>
             </nav>
         </div>
@@ -393,197 +423,63 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
-    <!-- ===== ADD PROJECT FORM ===== -->
-    <div class="form-row">
-        <div class="row-title">
-            <i class="fa-solid fa-project-diagram"></i> Project Details
+    <!-- ===== STATISTICS CARDS ===== -->
+    <div class="stats-cards">
+        <div class="stat-card total-stat">
+            <div class="stat-icon"><i class="fa-solid fa-folder-open"></i></div>
+            <div class="stat-number" th:text="${projects != null ? projects.size() : 0}">0</div>
+            <div class="stat-label">Total Projects</div>
         </div>
-
-        <form th:action="@{/admin/projects/save}"
-              th:object="${project}"
-              method="post"
-              id="projectForm">
-
-            <div class="row">
-                <!-- Client Name -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Client Name
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           th:field="*{clientName}"
-                           placeholder="Enter Client Name"
-                           id="clientName"
-                           required>
-                </div>
-
-                <!-- Client Region -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Client Region
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-select"
-                            th:field="*{clientRegion}"
-                            id="clientRegion"
-                            required>
-                        <option value="">Select Region</option>
-                        <option value="IND">India</option>
-                        <option value="USA">USA</option>
-                        <option value="UK">United Kingdom</option>
-                        <option value="UAE">UAE</option>
-                        <option value="AUS">Australia</option>
-                        <option value="CAN">Canada</option>
-                        <option value="SGP">Singapore</option>
-                        <option value="EUR">Europe</option>
-                        <option value="AFR">Africa</option>
-                        <option value="SA">South America</option>
-                    </select>
-                </div>
-
-                <!-- Department -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Department
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-select"
-                            th:field="*{departmentId}"
-                            id="departmentId"
-                            required
-                            onchange="loadEmployeesByDepartment()">
-                        <option value="">Select Department</option>
-                        <option th:each="dept : ${departments}"
-                                th:value="${dept.id}"
-                                th:text="${dept.departmentName}">
-                        </option>
-                    </select>
-                    <!-- Debug info - remove after testing -->
-                    <div th:if="${departments == null or departments.isEmpty()}" class="text-danger" style="font-size:0.8rem; margin-top:0.3rem;">
-                        <i class="fa-solid fa-exclamation-circle"></i> No departments found in database. Please add departments first.
-                    </div>
-                </div>
-
-            <div class="row">
-                <!-- Assigned To (Employee) -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Assigned To
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-select"
-                            th:field="*{assignedEmployeeId}"
-                            id="assignedEmployeeId"
-                            required>
-                        <option value="">Select Employee</option>
-                        <option th:each="emp : ${employees}"
-                                th:value="${emp.id}"
-                                th:text="${emp.fullName}">
-                        </option>
-                    </select>
-                    <div class="form-text">
-                        <i class="fa-solid fa-info-circle"></i> Employees from selected department
-                    </div>
-                </div>
-
-                <!-- Project Type -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Project Type
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-select"
-                            th:field="*{projectType}"
-                            required>
-                        <option value="">Select Type</option>
-                        <option value="C2C">C2C (Client to Client)</option>
-                        <option value="INDIVIDUAL">Individual</option>
-                        <option value="TEAM">Team</option>
-                    </select>
-                </div>
-
-                <!-- Total Cost -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Total Cost (₹)
-                        <span class="required">*</span>
-                    </label>
-                    <input type="number"
-                           class="form-control"
-                           th:field="*{totalCost}"
-                           placeholder="0.00"
-                           step="0.01"
-                           min="0"
-                           required>
-                </div>
+        <div class="stat-card active-stat">
+            <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
+            <div class="stat-number"
+                 th:text="${projects != null ? projects.stream().filter(p -> p.status == 'ACTIVE' || p.status.toString() == 'ACTIVE').count() : 0}">
+                0
             </div>
-
-            <div class="row">
-                <!-- Onboarding Date -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Onboarding Date
-                        <span class="required">*</span>
-                    </label>
-                    <input type="date"
-                           class="form-control"
-                           th:field="*{onboardingDate}"
-                           required>
-                </div>
-
-                <!-- Status -->
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">
-                        Status
-                    </label>
-                    <select class="form-select"
-                            th:field="*{status}">
-                        <option value="ACTIVE">Active</option>
-                        <option value="IN_PROGRESS">In Progress</option>
-                        <option value="ON_HOLD">On Hold</option>
-                        <option value="COMPLETED">Completed</option>
-                        <option value="CANCELLED">Cancelled</option>
-                    </select>
-                </div>
+            <div class="stat-label">Active</div>
+        </div>
+        <div class="stat-card inprogress-stat">
+            <div class="stat-icon"><i class="fa-solid fa-spinner"></i></div>
+            <div class="stat-number"
+                 th:text="${projects != null ? projects.stream().filter(p -> p.status == 'IN_PROGRESS' || p.status.toString() == 'IN_PROGRESS').count() : 0}">
+                0
             </div>
-
-            <div class="row">
-                <!-- Description -->
-                <div class="col-md-12 mb-3">
-                    <label class="form-label">
-                        Description
-                    </label>
-                    <textarea class="form-control"
-                              th:field="*{description}"
-                              rows="3"
-                              placeholder="Brief project description"></textarea>
-                </div>
+            <div class="stat-label">In Progress</div>
+        </div>
+        <div class="stat-card onhold-stat">
+            <div class="stat-icon"><i class="fa-solid fa-pause-circle"></i></div>
+            <div class="stat-number"
+                 th:text="${projects != null ? projects.stream().filter(p -> p.status == 'ON_HOLD' || p.status.toString() == 'ON_HOLD').count() : 0}">
+                0
             </div>
-
-            <div class="row">
-                <div class="col-md-12 d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-plus me-1"></i> Add Project
-                    </button>
-                    <a th:href="@{/admin/projects}" class="btn btn-secondary">
-                        <i class="fa-solid fa-times me-1"></i> Cancel
-                    </a>
-                </div>
+            <div class="stat-label">On Hold</div>
+        </div>
+        <div class="stat-card completed-stat">
+            <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
+            <div class="stat-number"
+                 th:text="${projects != null ? projects.stream().filter(p -> p.status == 'COMPLETED' || p.status.toString() == 'COMPLETED').count() : 0}">
+                0
             </div>
-        </form>
+            <div class="stat-label">Completed</div>
+        </div>
     </div>
 
     <!-- ===== PROJECT LIST ===== -->
     <div class="form-row">
         <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
             <div class="row-title mb-0">
-                <i class="fa-solid fa-list"></i> Project List
+                <i class="fa-solid fa-list"></i> All Projects
             </div>
             <div>
+                <a th:href="@{/admin/projects/add}" class="btn btn-primary btn-sm me-2">
+                    <i class="fa-solid fa-plus"></i> Add New Project
+                </a>
+                <a th:href="@{/admin/projects/seed}" class="btn btn-success btn-sm me-2"
+                   onclick="return confirm('Add 5 sample projects?')">
+                    <i class="fa-solid fa-database"></i> Generate Samples
+                </a>
                 <span class="text-muted" style="font-size:0.85rem;">
-                    Total Projects: <strong th:text="${projects != null ? projects.size() : 0}">0</strong>
+                    Total: <strong th:text="${projects != null ? projects.size() : 0}">0</strong>
                 </span>
             </div>
         </div>
@@ -605,18 +501,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="proj, iter : ${projects}">
+                <tr th:each="proj, iter : ${projects}" th:if="${proj != null}">
                     <td th:text="${iter.index + 1}">1</td>
                     <td>
-                        <strong th:text="${proj.projectName}">Project Alpha</strong>
-                        <div th:if="${proj.description}" class="text-muted" style="font-size:0.7rem;">
-                            <i class="fa-regular fa-file-lines"></i> <span th:text="${proj.description}">Description</span>
+                        <strong th:text="${proj.projectName != null ? proj.projectName : 'N/A'}">Project Alpha</strong>
+                        <div th:if="${proj.description != null and proj.description != ''}" class="text-muted" style="font-size:0.7rem;">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <span th:text="${proj.description}">Description</span>
                         </div>
                     </td>
                     <td th:text="${proj.clientName != null ? proj.clientName : 'N/A'}">Client Name</td>
                     <td th:text="${proj.clientRegion != null ? proj.clientRegion : 'N/A'}">Region</td>
                     <td>
-                            <span class="employee-tag" th:text="${proj.assignedEmployeeName != null ? proj.assignedEmployeeName : 'Unassigned'}">
+                            <span class="employee-tag"
+                                  th:text="${proj.assignedEmployeeName != null ? proj.assignedEmployeeName : 'Unassigned'}">
                                 John Doe
                             </span>
                     </td>
@@ -629,12 +527,15 @@
                             </span>
                     </td>
                     <td>
-                            <span class="cost-amount" th:text="${#numbers.formatDecimal(proj.totalCost, 0, 'COMMA', 2, 'POINT')}">
+                            <span class="cost-amount"
+                                  th:text="${proj.totalCost != null ? #numbers.formatDecimal(proj.totalCost, 0, 'COMMA', 2, 'POINT') : '0.00'}">
                                 0.00
                             </span>
                     </td>
                     <td>
-                        <span th:text="${#dates.format(proj.onboardingDate, 'dd MMM yyyy')}">01 Jan 2024</span>
+                            <span th:text="${proj.onboardingDate != null ? #temporals.format(proj.onboardingDate, 'dd MMM yyyy') : 'N/A'}">
+                                01 Jan 2024
+                            </span>
                     </td>
                     <td>
                             <span class="status-badge"
@@ -654,7 +555,7 @@
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                             <a th:href="@{/admin/projects/edit/{id}(id=${proj.id})}"
-                               class="btn btn-sm btn-secondary"
+                               class="btn btn-sm btn-warning"
                                title="Edit Project">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
@@ -668,10 +569,14 @@
                     </td>
                 </tr>
                 <tr th:if="${projects == null or projects.isEmpty()}">
-                    <td colspan="10" class="text-center py-4">
+                    <td colspan="10" class="text-center py-5">
                         <i class="fa-regular fa-folder-open fa-3x text-muted mb-3"></i>
-                        <p class="text-muted">No projects found</p>
-                        <p class="text-muted" style="font-size:0.85rem;">Add a project using the form above</p>
+                        <p class="text-muted" style="font-size:1.1rem;">No projects found</p>
+                        <p class="text-muted" style="font-size:0.85rem;">
+                            <a th:href="@{/admin/projects/add}" class="btn btn-primary btn-sm mt-2">
+                                <i class="fa-solid fa-plus"></i> Add Your First Project
+                            </a>
+                        </p>
                     </td>
                 </tr>
                 </tbody>
@@ -695,59 +600,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    /**
-     * Load employees based on selected department
-     */
-    function loadEmployeesByDepartment() {
-        const departmentId = document.getElementById('departmentId').value;
-        const employeeSelect = document.getElementById('assignedEmployeeId');
-
-        // Clear existing options (keep first option)
-        employeeSelect.innerHTML = '<option value="">Select Employee</option>';
-
-        if (!departmentId) {
-            return;
-        }
-
-        // Make AJAX call to fetch employees by department
-        fetch('/admin/projects/employees/by-department/' + departmentId)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(employees => {
-                employees.forEach(emp => {
-                    const option = document.createElement('option');
-                    option.value = emp.id;
-                    option.text = emp.fullName || emp.firstName + ' ' + emp.lastName;
-                    employeeSelect.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error('Error loading employees:', error);
-                // Show error message to user
-                const alertDiv = document.createElement('div');
-                alertDiv.className = 'alert alert-danger alert-dismissible fade show mt-2';
-                alertDiv.innerHTML = `
-                    <i class="fa-solid fa-exclamation-circle me-2"></i>
-                    Error loading employees. Please try again.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                `;
-                document.querySelector('.form-row').insertBefore(alertDiv, document.getElementById('projectForm'));
-            });
-    }
-
-    /**
-     * Initialize on page load
-     */
     document.addEventListener('DOMContentLoaded', function() {
-        // If department is already selected (e.g., when editing), load employees
-        const departmentId = document.getElementById('departmentId').value;
-        if (departmentId) {
-            loadEmployeesByDepartment();
-        }
+        console.log('Project List page loaded');
+        console.log('Total projects:', /*[[${projects != null ? projects.size() : 0}]]*/ 0);
     });
 </script>
 

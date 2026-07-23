@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.entity;
 
+import EmployeeManagementSystem.entity.admin_salary.SalaryStructure;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -21,10 +22,17 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private EmployeeProfile profile;
+
+
+    private String fullName;
+
+
     private String firstName;
 
-    @Column(nullable = false)
+
     private String lastName;
 
     @Column(nullable = false)
@@ -65,6 +73,12 @@ public class Employee {
             orphanRemoval = true)
     private Salary salaryDetails;
 
+
+    @OneToMany(mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Salary> salaries = new ArrayList<>();
+
     // Constructors, Getters, and Setters
     public Employee() {}
 
@@ -74,15 +88,4 @@ public class Employee {
         this.email = email;
     }
 
-
-//    public void setSalaryDetails(Salary salaryDetails) {
-//        this.salaryDetails = salaryDetails;
-//        if (salaryDetails != null) {
-//            salaryDetails.setEmployee(this);
-//        }
-//    }
-// Helper method to get full name
-    public String getFullName() {
-      return firstName + " " + lastName;
-}
 }
