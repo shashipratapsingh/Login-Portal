@@ -83,4 +83,31 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         return logs;
     }
+    public void signoffEmployee(String employeeId) {
+        LocalDate today = LocalDate.now();
+
+        // 1. Aaj ka sabse latest record nikalen (Login Time ke hisab se Descending)
+        Optional<AttendanceTracking> latestLogOpt = attendanceTrackingRepository
+                .findTopByEmployeeIdOrderByLoginTimeDesc(employeeId);
+
+        if (latestLogOpt.isPresent()) {
+            AttendanceTracking log = latestLogOpt.get();
+
+            // Check karein ki latest log aaj ka hi hai ya nahi
+            if (log.getLoginTime() != null && log.getLoginTime().toLocalDate().equals(today)) {
+
+                // 2. Logout time ko naye/current time se OVERWRITE karein
+                LocalDateTime newLogoutTime = LocalDateTime.now();
+                log.setLogoutTime(newLogoutTime);
+
+                // 3. Naye Logout time ke hisaab se Duration RE-CALCULATE karein
+                Duration duration = Duration.between(log.getLoginTime(), newLogoutTime);
+                double updatedHours = duration.toMinutes() / 60.0;
+                log.setWorkingHours(updatedHours);
+
+                // 4. Database mein UPDATED record SAVE karein
+                attendanceTrackingRepository.save(log);
+            }
+        }
+    }
 }

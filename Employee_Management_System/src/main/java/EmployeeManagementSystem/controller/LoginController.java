@@ -97,6 +97,7 @@ public class LoginController {
                 attendance.setDate(LocalDate.now());
                 attendance.setLoginTime(LocalDateTime.now());
                 attendance.setStatus("Present");
+                attendance.setWorkMode(request.getWorkMode());
 
                 attendanceTrackingRepository.save(attendance);
             }

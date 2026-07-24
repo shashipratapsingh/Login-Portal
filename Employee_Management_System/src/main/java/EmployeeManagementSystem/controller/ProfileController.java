@@ -28,10 +28,11 @@ public class ProfileController {
     }
     @PostMapping("/save")
     public String saveProfile(@ModelAttribute("profile") EmployeeProfile profile){
+        System.out.println("SAVE CONTROLLER HIT");
         Authentication auth=SecurityContextHolder.getContext().getAuthentication();
         String currentEmpId=auth.getName();
         service.saveOrUpdateProfile(profile,currentEmpId);
-        return "redirect:/profile/view?success=true";
+        return "redirect:/employee/profile/view?success=true";
     }
 
     @PostMapping("/upload-photo")
