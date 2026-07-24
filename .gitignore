@@ -1,0 +1,13 @@
+# Maven
+target/
+Employee_Management_System/target/
+
+# IntelliJ
+.idea/
+*.iml
+
+# Java
+*.class
+
+# Logs
+*.log

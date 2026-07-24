@@ -2,15 +2,19 @@ package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.dto.AnniversaryDTO;
 import EmployeeManagementSystem.dto.BirthdayDTO;
+import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
 import EmployeeManagementSystem.repository.EmployeeRepository;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +41,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> getEmployeesByDepartment(Long departmentId) {
         return employeeRepository.findByDepartmentId(departmentId);
+    }
+
+    @Override
+    public @Nullable Object findAll() {
+        return employeeRepository.findAll();
     }
 
     @Override
@@ -181,4 +190,5 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .limit(5)
                 .toList();
     }
+
 }

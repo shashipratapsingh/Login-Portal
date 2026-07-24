@@ -11,6 +11,98 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/employeeside-dashboard.css}">
+    <style>
+    /* ── TOP-RIGHT CORNER COMPACT POPUP MODAL STYLING ── */
+
+    /* 1. Modal Positioning (Top-Right Corner) */
+    .modal-celebration {
+    z-index: 1060 !important;
+    }
+
+    .modal-backdrop {
+    z-index: 1050 !important;
+    background-color: rgba(15, 23, 42, 0.4) !important; /* Slightly lighter overlay */
+    }
+
+    .modal-celebration .modal-dialog {
+    max-width: 360px !important; /* Compact overall width */
+    margin-top: 20px !important;   /* Top spacing */
+    margin-right: 20px !important;  /* Right corner spacing */
+    margin-left: auto !important;   /* Right corner align karega */
+    }
+
+    /* 2. Compact Container Box */
+    .modal-celebration .modal-content {
+    border-radius: 16px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 3. Small & Sleek Header */
+    .modal-celebration .modal-header {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border: none;
+    padding: 10px 16px; /* Compact padding */
+    }
+
+    .modal-celebration .modal-title {
+    font-size: 14px !important;
+    }
+
+    .modal-celebration .btn-close {
+    font-size: 11px;
+    }
+
+    /* 4. Scrollable Body */
+    .modal-celebration .modal-body {
+    padding: 12px !important;
+    max-height: 360px;
+    overflow-y: auto;
+    }
+
+    /* 5. Employee Inner Card */
+    .celebration-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px 12px !important;
+    background: #fafafa;
+    }
+
+    /* 6. Larger Employee Photo (Prominent Focus) */
+    .emp-photo {
+    width: 68px !important;  /* Photo size Bada rakha hai */
+    height: 68px !important;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4f46e5;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+    }
+
+    /* 7. Typography & Badges */
+    .celebration-card h5 {
+    font-size: 13.5px !important;
+    margin-bottom: 2px !important;
+    }
+
+    .celebration-card small {
+    font-size: 11px !important;
+    }
+
+    .badge-celebration {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+    border-radius: 50px;
+    font-weight: 600;
+    }
+
+    /* 8. Action Wish Button */
+    .celebration-card .btn {
+    font-size: 11px !important;
+    padding: 4px 10px !important;
+    }
+    </style>
 </head>
 
 <body>
@@ -259,6 +351,55 @@
                     </div>
                 </div>
             </div>
+            <!-- 🎉 CELEBRATION POPUP MODAL -->
+            <div id="celebrationModal" class="modal fade modal-celebration" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex align-items-center justify-content-between">
+                            <h5 class="modal-title fw-bold m-0">
+                                <i class="fa-solid fa-cake-candles me-2"></i>Today's Celebrations 🎉
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body p-4" style="max-height: 420px; overflow-y: auto;">
+                            <div class="d-flex flex-column gap-3">
+                                <div th:each="emp : ${celebrations}" class="celebration-card d-flex align-items-center gap-3">
+                                    <div>
+                                        <!-- Safe photo check -->
+                                        <img th:src="${emp?.photo != null && emp?.photo != ''} ? @{/storage/photos/{filename}(filename=${emp.photo})} : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'"
+                                             class="emp-photo" alt="Employee Photo"
+                                             style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="fw-bold mb-1 text-dark" th:text="${emp.fullName != null ? emp.fullName : 'Employee'}">Rahul Sharma</h5>
+
+                                        <div th:if="${emp.type == 'Birthday'}">
+                                            <span class="badge bg-warning text-dark badge-celebration">🎂 Happy Birthday</span>
+                                            <small class="text-muted d-block mt-1">Wish them a wonderful day ahead!
+                                            </small>
+                                        </div>
+
+                                        <div th:if="${emp.type == 'Anniversary'}">
+                                            <span class="badge bg-primary badge-celebration">🏆 Work Anniversary</span>
+                                            <small class="text-muted d-block mt-1">Celebrating milestone at BlueThink!</small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="button"
+                                                class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1 btn-send-wish"
+                                                th:data-receiver-id="${emp?.userId}"
+                                                th:data-wish-type="${emp?.type}"
+                                                onclick="sendWishToEmployee(this)">
+                                            <i class="fa-regular fa-paper-plane me-1"></i> Wish
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- FOOTER COPYRIGHT SECTION -->
             <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">
@@ -271,5 +412,81 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AUTO TRIGGER POPUP SCRIPT -->
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        /* Thymeleaf inline variable */
+        let celebrationsCount = [[${celebrations != null ? celebrations.size() : 0}]];
+
+        console.log("Celebrations count today: " + celebrationsCount);
+
+        if (celebrationsCount > 0) {
+            var celebrationModalElement = document.getElementById("celebrationModal");
+            if (celebrationModalElement) {
+                var modal = new bootstrap.Modal(celebrationModalElement);
+                modal.show();
+            }
+        }
+    });
+</script>
+<script th:inline="javascript">
+    function sendWishToEmployee(buttonElement) {
+        let receiverId = buttonElement.getAttribute("data-receiver-id");
+        let wishType = buttonElement.getAttribute("data-wish-type");
+        let senderId = [[${loggedInEmpId}]]; // Spring Model se logged-in employee ID
+
+        if (!receiverId) {
+            alert("Receiver details missing!");
+            return;
+        }
+
+        buttonElement.disabled = true;
+        buttonElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Wishing...';
+
+        fetch('/api/wish/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                senderId: senderId,
+                receiverId: receiverId,
+                type: wishType
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                buttonElement.className = "btn btn-success btn-sm rounded-pill px-3 py-1";
+                buttonElement.innerHTML = '<i class="fa-solid fa-check me-1"></i> Wished!';
+            } else {
+                return response.text().then(text => { throw new Error(text); });
+            }
+        })
+        .catch(error => {
+            alert(error.message || "Failed to send wish.");
+            buttonElement.disabled = false;
+            buttonElement.innerHTML = '<i class="fa-regular fa-paper-plane me-1"></i> Wish';
+        });
+    }
+</script>
+<!--<script th:inline="javascript">-->
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+<!--        let celebrationsCount = [[${celebrations != null ? celebrations.size() : 0}]];-->
+
+<!--        // Aaj ki date string (YYYY-MM-DD)-->
+<!--        let todayDate = new Date().toISOString().slice(0, 10);-->
+<!--        let lastShownDate = localStorage.getItem("celebrationPopupShownDate");-->
+
+<!--        // Agar aaj ke din abhi tak nahi dikhaya gaya hai-->
+<!--        if (celebrationsCount > 0 && lastShownDate !== todayDate) {-->
+<!--            var celebrationModalElement = document.getElementById("celebrationModal");-->
+<!--            var modal = new bootstrap.Modal(celebrationModalElement);-->
+<!--            modal.show();-->
+
+<!--            // Store karein ki aaj ki date ko popup dikha diya gaya hai-->
+<!--            localStorage.setItem("celebrationPopupShownDate", todayDate);-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>

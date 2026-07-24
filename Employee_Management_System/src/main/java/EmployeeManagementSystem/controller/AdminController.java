@@ -2,10 +2,7 @@ package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.dto.DashboardStatsDTO;
 import EmployeeManagementSystem.entity.*;
-import EmployeeManagementSystem.repository.DepartmentRepository;
-import EmployeeManagementSystem.repository.EmployeeProfileRepository;
-import EmployeeManagementSystem.repository.EmployeeRepository;
-import EmployeeManagementSystem.repository.LeaveRepository;
+import EmployeeManagementSystem.repository.*;
 import EmployeeManagementSystem.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +29,16 @@ public class AdminController {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private EmployeeProfileRepository employeeProfileRepository;
+    private EmployeeProfileRepository employeeProfileRepository;   // already present
 
     @Autowired
     private EmployeeProfileService employeeProfileService;
 
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private RegisterEmployeeRepository registerEmployeeRepository;
 
     @Autowired
     private LeaveRepository leaveRepository;
@@ -60,6 +62,26 @@ public class AdminController {
     public String dashboard(Model model,
                             @RequestParam(defaultValue = "0") int page,
                             @RequestParam(defaultValue = "5") int size) {
+
+        // -------- FIX: Get logged-in user's full name from EmployeeProfile --------
+        String userName = "Guest";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String && authentication.getPrincipal().equals("anonymousUser"))) {
+            // Principal is the user ID (e.g., "EMP0001")
+            String userId = authentication.getName();  // or getPrincipal().toString()
+            if (userId != null && !userId.isEmpty()) {
+                // Fetch the employee profile by userId
+                RegisterEmployee profile = registerEmployeeRepository.findByUserId(userId);
+                if (profile != null && profile.getName() != null && !profile.getName().isEmpty()) {
+                    userName = profile.getName();   // e.g., "Sujit kumar"
+                } else {
+                    userName = userId;   // fallback to user ID if name not found
+                }
+            }
+        }
+        model.addAttribute("loggedInUser", userName);
+        // -----------------------------------------------------
 
         // Add currentPage attribute for sidebar to highlight active menu
         model.addAttribute("currentPage", "dashboard");
@@ -303,6 +325,4 @@ public class AdminController {
         public String getColor() { return color; }
         public String getTime() { return time; }
     }
-
-
 }

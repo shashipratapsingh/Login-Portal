@@ -2,6 +2,7 @@ package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.dto.AnniversaryDTO;
 import EmployeeManagementSystem.dto.BirthdayDTO;
+import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.entity.Policy;
 import EmployeeManagementSystem.entity.RegisterEmployee;
@@ -49,6 +50,7 @@ public class EmployeeSideController {
     private final WfhRequestRepository wfhRequestRepository;
     private final LeaveRepository leaveRepository;
     private final EmployeeProfileRepository employeeProfileRepository;
+    private final EmployeeProfileService employeeProfileService;
 //    private final PolicyService policyService;
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest request, Model model) {
@@ -76,6 +78,9 @@ public class EmployeeSideController {
 
         List<BirthdayDTO> birthdayEmployee = employeeService.getUpcomingBirthdays();
         List<AnniversaryDTO> upcomingAnniversaries = employeeService.getUpcomingAnniversaries();
+        List<CelebrationDto> celebrations = employeeProfileService.getTodayCelebrations();
+
+        model.addAttribute("celebrations",celebrations);
 
         model.addAttribute("isUserLoggedIn", isLoggedIn);
         model.addAttribute("loggedInEmpName", employeeName);

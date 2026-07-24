@@ -1,5 +1,8 @@
-package EmployeeManagementSystem.enums;
+ package EmployeeManagementSystem.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum ProjectStatus {
     ACTIVE("Planned"),
     INACTIVE("Inactive"),
@@ -14,7 +17,4 @@ public enum ProjectStatus {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

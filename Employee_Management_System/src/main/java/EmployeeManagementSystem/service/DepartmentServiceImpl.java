@@ -93,6 +93,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentRepository.existsByDepartmentName(name);
     }
 
+    @Override
+    public Department findByDepartmentName(String department) {
+        return departmentRepository.findByDepartmentName(department).orElse(null);
+    }
+
+
     private List<String> getDefaultDesignations(String departmentName) {
         Map<String, List<String>> defaultDesignations = new HashMap<>();
 

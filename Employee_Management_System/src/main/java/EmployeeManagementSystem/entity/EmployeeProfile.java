@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,6 +25,9 @@ public class EmployeeProfile {
     @Column(name = "user_id", unique = true, nullable = false)
     private String userId;
 
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Employee employee;
+
     @NotBlank(message = "Full name is required")
     @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
     @Column(name = "full_name", nullable = false)
@@ -33,9 +37,9 @@ public class EmployeeProfile {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank(message = "Date of birth is required")
+    @NotNull(message = "Date of birth is required")
     @Column(name = "dob")
-    private String dob;
+    private LocalDate dob;
 
     private String gender;
 

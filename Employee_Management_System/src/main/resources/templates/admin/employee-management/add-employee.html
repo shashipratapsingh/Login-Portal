@@ -174,6 +174,18 @@
             color: #1a2639;
         }
 
+        .btn-success {
+            background: #28a745;
+            border: none;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
         .back-link {
             color: #6b7a8f;
             text-decoration: none;
@@ -298,6 +310,20 @@
     <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
         <i class="fa-solid fa-exclamation-circle me-2"></i> <span th:text="${errorMessage}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- ===== UPDATED: Create Payroll Button (uses flash attributes) ===== -->
+    <div th:if="${createdEmployeeId != null}" class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div>
+                <i class="fa-solid fa-coins me-2"></i>
+                <strong>Ready to set up payroll?</strong>
+                <span class="ms-2">Create a salary structure for <span th:text="${createdEmployeeName}"></span> now.</span>
+            </div>
+            <a th:href="@{/admin/salary-structure/add/{id}(id=${createdEmployeeId})}" class="btn btn-success btn-sm mt-2 mt-sm-0">
+                <i class="fa-solid fa-plus me-1"></i> Create Payroll
+            </a>
+        </div>
     </div>
 
     <!-- Add Employee Form -->

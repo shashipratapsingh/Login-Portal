@@ -225,6 +225,7 @@
             background: #138496;
         }
 
+
         .status-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
@@ -404,6 +405,8 @@
               method="post"
               id="projectForm">
 
+            <input type="hidden" th:field="*{projectName}" />
+
             <div class="row">
                 <!-- Client Name -->
                 <div class="col-md-4 mb-3">
@@ -460,11 +463,11 @@
                                 th:text="${dept.departmentName}">
                         </option>
                     </select>
-                    <!-- Debug info - remove after testing -->
                     <div th:if="${departments == null or departments.isEmpty()}" class="text-danger" style="font-size:0.8rem; margin-top:0.3rem;">
                         <i class="fa-solid fa-exclamation-circle"></i> No departments found in database. Please add departments first.
                     </div>
                 </div>
+            </div>
 
             <div class="row">
                 <!-- Assigned To (Employee) -->
@@ -567,9 +570,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-plus me-1"></i> Add Project
                     </button>
-                    <a th:href="@{/admin/projects}" class="btn btn-secondary">
-                        <i class="fa-solid fa-times me-1"></i> Cancel
-                    </a>
+
                 </div>
             </div>
         </form>
@@ -608,15 +609,17 @@
                 <tr th:each="proj, iter : ${projects}">
                     <td th:text="${iter.index + 1}">1</td>
                     <td>
-                        <strong th:text="${proj.projectName}">Project Alpha</strong>
-                        <div th:if="${proj.description}" class="text-muted" style="font-size:0.7rem;">
-                            <i class="fa-regular fa-file-lines"></i> <span th:text="${proj.description}">Description</span>
+                        <strong th:text="${proj.projectName != null ? proj.projectName : 'N/A'}">Project Alpha</strong>
+                        <div th:if="${proj.description != null and proj.description != ''}" class="text-muted" style="font-size:0.7rem;">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <span th:text="${proj.description}">Description</span>
                         </div>
                     </td>
                     <td th:text="${proj.clientName != null ? proj.clientName : 'N/A'}">Client Name</td>
                     <td th:text="${proj.clientRegion != null ? proj.clientRegion : 'N/A'}">Region</td>
                     <td>
-                            <span class="employee-tag" th:text="${proj.assignedEmployeeName != null ? proj.assignedEmployeeName : 'Unassigned'}">
+                            <span class="employee-tag"
+                                  th:text="${proj.assignedEmployeeName != null ? proj.assignedEmployeeName : 'Unassigned'}">
                                 John Doe
                             </span>
                     </td>
@@ -629,12 +632,15 @@
                             </span>
                     </td>
                     <td>
-                            <span class="cost-amount" th:text="${#numbers.formatDecimal(proj.totalCost, 0, 'COMMA', 2, 'POINT')}">
+                            <span class="cost-amount"
+                                  th:text="${proj.totalCost != null ? #numbers.formatDecimal(proj.totalCost, 0, 'COMMA', 2, 'POINT') : '0.00'}">
                                 0.00
                             </span>
                     </td>
                     <td>
-                        <span th:text="${#dates.format(proj.onboardingDate, 'dd MMM yyyy')}">01 Jan 2024</span>
+                            <span th:text="${proj.onboardingDate != null ? #temporals.format(proj.onboardingDate, 'dd MMM yyyy') : 'N/A'}">
+                                01 Jan 2024
+                            </span>
                     </td>
                     <td>
                             <span class="status-badge"
@@ -747,6 +753,14 @@
         const departmentId = document.getElementById('departmentId').value;
         if (departmentId) {
             loadEmployeesByDepartment();
+        }
+
+        // Log form submission for debugging
+        const form = document.getElementById('projectForm');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                console.log('Form submitted!');
+            });
         }
     });
 </script>
