@@ -39,6 +39,7 @@ public class EmployeeProfileController {
     // Redirect from employee-directory to list
     @GetMapping("/employee-directory")
     public String redirectToEmployeeList() {
+
         return "redirect:/admin/employees/list";
     }
 
@@ -63,7 +64,6 @@ public class EmployeeProfileController {
         if (department != null && !department.isEmpty()) {
             employee.setDepartment(department);
         }
-
         model.addAttribute("employee", employee);
         model.addAttribute("departments", departmentService.getActiveDepartments());
         model.addAttribute("genders", Arrays.asList("Male", "Female", "Other"));

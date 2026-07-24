@@ -217,7 +217,7 @@ public class ProjectController {
         List<Project> projects = projectService.getAllProjects();
         System.out.println("=== LISTING PROJECTS: " + projects.size());
         model.addAttribute("projects", projects);
-        return "admin/project-management/project-list";
+        return "admin/project-management/projects-list";
     }
 
     // Get employee profiles by department name (for AJAX calls)
