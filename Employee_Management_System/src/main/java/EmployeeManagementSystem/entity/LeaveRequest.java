@@ -68,4 +68,9 @@ public class LeaveRequest {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private LeaveStatus status = LeaveStatus.PENDING;
+
+
+    public long getTotalDays() {
+        return java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
+    }
 }

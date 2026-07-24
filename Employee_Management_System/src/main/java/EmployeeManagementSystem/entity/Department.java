@@ -1,7 +1,9 @@
 package EmployeeManagementSystem.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -11,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "departments")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Department {
 
     @Id

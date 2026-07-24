@@ -25,6 +25,10 @@ public class EmployeeProfile {
     @Column(name = "user_id", unique = true, nullable = false)
     private String userId;
 
+    @NotNull(message = "Full name is required")
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Employee employee;
+
     @NotBlank(message = "Full name is required")
     @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
     @Column(name = "full_name", nullable = false)
@@ -34,7 +38,7 @@ public class EmployeeProfile {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank(message = "Date of birth is required")
+    @NotNull(message = "Date of birth is required")
     @Column(name = "dob")
     private LocalDate dob;
 
@@ -43,7 +47,7 @@ public class EmployeeProfile {
     @Column(name = "blood_group")
     private String bloodGroup;
 
-    @NotBlank(message = "Email is required")
+    @NotNull(message = "Email is required")
     @Email(message = "Invalid email format")
     @Column(unique = true, nullable = false)
     private String email;

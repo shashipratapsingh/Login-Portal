@@ -1,7 +1,10 @@
 package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.dto.EmployeeCredentialsDTO;
+import EmployeeManagementSystem.entity.Department;
+import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.EmployeeProfile;
+import EmployeeManagementSystem.repository.EmployeeRepository;
 import EmployeeManagementSystem.service.DepartmentService;
 import EmployeeManagementSystem.service.EmployeeProfileServiceImpl;
 import jakarta.validation.Valid;
@@ -18,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,10 +34,12 @@ public class EmployeeProfileController {
 
     private final EmployeeProfileServiceImpl employeeProfileService;
     private final DepartmentService departmentService;
+    private final EmployeeRepository employeeRepository;
 
     // Redirect from employee-directory to list
     @GetMapping("/employee-directory")
     public String redirectToEmployeeList() {
+
         return "redirect:/admin/employees/list";
     }
 
@@ -56,7 +64,6 @@ public class EmployeeProfileController {
         if (department != null && !department.isEmpty()) {
             employee.setDepartment(department);
         }
-
         model.addAttribute("employee", employee);
         model.addAttribute("departments", departmentService.getActiveDepartments());
         model.addAttribute("genders", Arrays.asList("Male", "Female", "Other"));
@@ -88,6 +95,7 @@ public class EmployeeProfileController {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Binding errors: " + bindingResult.getAllErrors());
+            // repopulate dropdowns
             model.addAttribute("departments", departmentService.getActiveDepartments());
             model.addAttribute("genders", Arrays.asList("Male", "Female", "Other"));
             model.addAttribute("bloodGroups", Arrays.asList("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"));
@@ -98,25 +106,33 @@ public class EmployeeProfileController {
         }
 
         try {
+            // 1. Save EmployeeProfile
             EmployeeCredentialsDTO credentials = employeeProfileService.saveOrUpdateProfile(employee, null);
-            System.out.println("Employee saved with ID: " + credentials.getUserId());
+            System.out.println("EmployeeProfile saved with ID: " + credentials.getUserId());
 
+            // 2. Create and save Employee (linked to profile)
+            Employee savedEmployee = createAndSaveEmployee(employee);
+            System.out.println("Employee saved with ID: " + savedEmployee.getId());
+
+            // 3. Handle photo upload (if any)
             if (photoFile != null && !photoFile.isEmpty()) {
                 employeeProfileService.uploadPhoto(photoFile, employee.getUserId());
                 System.out.println("Photo uploaded for employee: " + employee.getUserId());
             }
 
-            redirectAttributes.addFlashAttribute("showCredentialsPopup", true);
-            redirectAttributes.addFlashAttribute("credentials", credentials);
+            // 4. Prepare flash attributes for success page (add page)
             redirectAttributes.addFlashAttribute("successMessage",
                     "Employee added successfully! Credentials have been sent to the employee's email.");
+            redirectAttributes.addFlashAttribute("createdEmployeeId", savedEmployee.getId());
+            redirectAttributes.addFlashAttribute("createdEmployeeName", savedEmployee.getFullName());
 
-            System.out.println("Redirecting to employee list with credentials popup");
-            return "redirect:/admin/employees/list";
+            // 5. Redirect to the ADD page (so the "Create Payroll" button appears)
+            return "redirect:/admin/employees/add";
         } catch (Exception e) {
             System.err.println("Error adding employee: " + e.getMessage());
             e.printStackTrace();
             model.addAttribute("errorMessage", "Error adding employee: " + e.getMessage());
+            // repopulate dropdowns
             model.addAttribute("departments", departmentService.getActiveDepartments());
             model.addAttribute("genders", Arrays.asList("Male", "Female", "Other"));
             model.addAttribute("bloodGroups", Arrays.asList("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"));
@@ -125,6 +141,48 @@ public class EmployeeProfileController {
             model.addAttribute("pageTitle", "Add Employee");
             return "admin/employee-management/add-employee";
         }
+    }
+
+    /**
+     * Helper method to create an Employee entity from an EmployeeProfile.
+     */
+    private Employee createAndSaveEmployee(EmployeeProfile profile) {
+        Employee employee = new Employee();
+
+        // Link the profile
+        employee.setProfile(profile);
+
+        // Copy basic fields
+//        String fullName = profile.getFullName();
+        employee.setFullName(profile.getFullName());
+        employee.setEmail(profile.getEmail());
+
+        // Parse date of birth (profile stores as String)
+//        if (profile.getDob() != null && !(profile.getDob() != null)) {
+//            try {
+//                LocalDate dob = profile.getDob();
+//                employee.setDateOfBirth(dob);
+//            } catch (DateTimeParseException e) {
+//                // fallback: try other formats if needed, or set to null
+//                employee.setDateOfBirth(null);
+//            }
+//        }
+        employee.setDateOfBirth(profile.getDob());
+
+        // Set joining date to today (or you can use a default)
+        employee.setJoiningDate(LocalDate.now());
+
+        // Map department string to Department entity
+        if (profile.getDepartment() != null && !profile.getDepartment().isEmpty()) {
+            Department dept = departmentService.findByDepartmentName(profile.getDepartment());
+            employee.setDepartment(dept); // may be null if not found
+        }
+
+        // Set other fields as needed (workMode, phone, etc.)
+        employee.setPhone(profile.getPhoneNumber());
+
+        // Save and return
+        return employeeRepository.save(employee);
     }
 
     @GetMapping("/employees/list")

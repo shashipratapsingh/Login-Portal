@@ -22,4 +22,5 @@ public class AttendanceTracking {
     private LocalDateTime logoutTime;
     private Double workingHours;
     private String status;
+    private String workMode;
 }

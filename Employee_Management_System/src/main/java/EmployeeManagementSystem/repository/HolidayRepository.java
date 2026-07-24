@@ -12,4 +12,6 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
             LocalDate startDate,
             LocalDate endDate
     );
+    boolean existsByHolidayDate(LocalDate date);
+    List<Holiday> findAllByOrderByHolidayDateAsc();
 }
