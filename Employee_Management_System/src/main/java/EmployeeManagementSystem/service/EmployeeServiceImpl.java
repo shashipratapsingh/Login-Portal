@@ -2,21 +2,15 @@ package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.dto.AnniversaryDTO;
 import EmployeeManagementSystem.dto.BirthdayDTO;
-import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
-import EmployeeManagementSystem.kafkaConfig.EmployeeEvent;
-import EmployeeManagementSystem.kafkaConfig.EmployeeProducer;
 import EmployeeManagementSystem.repository.EmployeeRepository;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -27,40 +21,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private EmployeeProducer employeeProducer;
-
     @Override
     public Employee saveEmployee(Employee employee) {
+
         if (employee.getSalaryDetails() != null) {
-            employee.getSalaryDetails().setEmployee(employee);
+            employee.getSalaryDetails().forEach(salary -> salary.setEmployee(employee));
         }
 
         if (employee.getAttendanceList() != null) {
-            employee.getAttendanceList().forEach(a -> a.setEmployee(employee));
+            employee.getAttendanceList().forEach(attendance -> attendance.setEmployee(employee));
         }
 
-        Employee savedEmployee = employeeRepository.save(employee);
-
-        EmployeeEvent event = new EmployeeEvent(
-                savedEmployee.getId(),
-                savedEmployee.getFullName(),
-                savedEmployee.getEmail()
-        );
-
-        employeeProducer.sendEmployeeCreatedEvent(event);
-
-        return savedEmployee;
+        return employeeRepository.save(employee);
     }
 
     @Override
     public List<Employee> getEmployeesByDepartment(Long departmentId) {
         return employeeRepository.findByDepartmentId(departmentId);
-    }
-
-    @Override
-    public @Nullable Object findAll() {
-        return employeeRepository.findAll();
     }
 
     @Override
@@ -76,14 +53,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         existing.setDepartment(employee.getDepartment());
 
         if (employee.getSalaryDetails() != null) {
-            Salary newSalary = employee.getSalaryDetails();
+            Salary newSalary = (Salary) employee.getSalaryDetails();
             if (existing.getSalaryDetails() != null) {
-                Salary existingSalary = existing.getSalaryDetails();
+                Salary existingSalary = (Salary) existing.getSalaryDetails();
                 existingSalary.setBonus(newSalary.getBonus());
                 existingSalary.setDeductions(newSalary.getDeductions());
             } else {
                 newSalary.setEmployee(existing);
-                existing.setSalaryDetails(newSalary);
+                existing.setSalaryDetails((List<Salary>) newSalary);
             }
         }
 
