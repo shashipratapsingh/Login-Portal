@@ -5,6 +5,8 @@ import EmployeeManagementSystem.dto.BirthdayDTO;
 import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
+import EmployeeManagementSystem.kafkaConfig.EmployeeEvent;
+import EmployeeManagementSystem.kafkaConfig.EmployeeProducer;
 import EmployeeManagementSystem.repository.EmployeeRepository;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private EmployeeProducer employeeProducer;
+
     @Override
     public Employee saveEmployee(Employee employee) {
         if (employee.getSalaryDetails() != null) {
@@ -35,7 +40,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.getAttendanceList().forEach(a -> a.setEmployee(employee));
         }
 
-        return employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        EmployeeEvent event = new EmployeeEvent(
+                savedEmployee.getId(),
+                savedEmployee.getFullName(),
+                savedEmployee.getEmail()
+        );
+
+        employeeProducer.sendEmployeeCreatedEvent(event);
+
+        return savedEmployee;
     }
 
     @Override
