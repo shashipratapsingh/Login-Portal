@@ -21,14 +21,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+//    @Override
+//    public Employee saveEmployee(Employee employee) {
+//        if (employee.getSalaryDetails() != null) {
+//            employee.getSalaryDetails().setEmployee(employee);
+//        }
+//
+//        if (employee.getAttendanceList() != null) {
+//            employee.getAttendanceList().forEach(a -> a.setEmployee(employee));
+//        }
+//
+//        return employeeRepository.save(employee);
+//    }
+
+
     @Override
     public Employee saveEmployee(Employee employee) {
+
         if (employee.getSalaryDetails() != null) {
-            employee.getSalaryDetails().setEmployee(employee);
+            employee.getSalaryDetails().forEach(salary -> salary.setEmployee(employee));
         }
 
         if (employee.getAttendanceList() != null) {
-            employee.getAttendanceList().forEach(a -> a.setEmployee(employee));
+            employee.getAttendanceList().forEach(attendance -> attendance.setEmployee(employee));
         }
 
         return employeeRepository.save(employee);
@@ -52,14 +67,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         existing.setDepartment(employee.getDepartment());
 
         if (employee.getSalaryDetails() != null) {
-            Salary newSalary = employee.getSalaryDetails();
+            Salary newSalary = (Salary) employee.getSalaryDetails();
             if (existing.getSalaryDetails() != null) {
-                Salary existingSalary = existing.getSalaryDetails();
+                Salary existingSalary = (Salary) existing.getSalaryDetails();
                 existingSalary.setBonus(newSalary.getBonus());
                 existingSalary.setDeductions(newSalary.getDeductions());
             } else {
                 newSalary.setEmployee(existing);
-                existing.setSalaryDetails(newSalary);
+                existing.setSalaryDetails((List<Salary>) newSalary);
             }
         }
 

@@ -68,3 +68,118 @@ public class SidebarGlobalAdvice {
 
 }
 }
+
+
+
+
+
+
+
+
+
+
+//package EmployeeManagementSystem.controller;
+//
+//import EmployeeManagementSystem.entity.EmployeeProfile;
+//import EmployeeManagementSystem.entity.RegisterEmployee;
+//import EmployeeManagementSystem.jwt.JwtUtil;
+//import EmployeeManagementSystem.repository.EmployeeProfileRepository;
+//import EmployeeManagementSystem.service.AttendanceTrackingService;
+//import EmployeeManagementSystem.service.RegisterEmployeeService;
+//import jakarta.servlet.http.Cookie;
+//import jakarta.servlet.http.HttpServletRequest;
+//import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.ui.Model;
+//import org.springframework.web.bind.annotation.ControllerAdvice;
+//import org.springframework.web.bind.annotation.ModelAttribute;
+//
+//import java.time.Duration;
+//import java.time.LocalDateTime;
+//
+//@Slf4j
+//@ControllerAdvice
+//@RequiredArgsConstructor
+//public class SidebarGlobalAdvice {
+//
+//    private final JwtUtil jwtUtil;
+//    private final RegisterEmployeeService employeeService;
+//    private final EmployeeProfileRepository employeeProfileRepository;
+//    private final AttendanceTrackingService attendanceTrackingService;
+//
+//    @ModelAttribute
+//    public void addSidebarData(HttpServletRequest request, Model model) {
+//
+//        Cookie[] cookies = request.getCookies();
+//
+//        if (cookies == null) {
+//            return;
+//        }
+//
+//        for (Cookie cookie : cookies) {
+//
+//            if (!"jwtToken".equals(cookie.getName())
+//                    || cookie.getValue() == null
+//                    || cookie.getValue().isBlank()) {
+//                continue;
+//            }
+//
+//            try {
+//
+//                // Employee Id from JWT
+//                String employeeId = jwtUtil.extractUsername(cookie.getValue());
+//
+//                RegisterEmployee emp = employeeService.getEmployeeById(employeeId);
+//
+//                if (emp != null) {
+//
+//                    model.addAttribute("loggedInEmpName", emp.getName());
+//                    model.addAttribute("loggedInEmpId", emp.getId());
+//                    model.addAttribute("loggedInEmpDesignation", emp.getDesignation());
+//
+//                    EmployeeProfile profile =
+//                            employeeProfileRepository.findByUserId(employeeId).orElse(null);
+//
+//                    model.addAttribute(
+//                            "loggedInEmpPhoto",
+//                            profile != null ? profile.getPhoto() : null
+//                    );
+//                }
+//
+//                // ===============================
+//                // LIVE TIMER
+//                // ===============================
+//
+//                long totalSeconds = 0;
+//
+//                LocalDateTime punchInTime =
+//                        attendanceTrackingService.getPunchInTimeForToday(employeeId);
+//
+//                log.info("Employee Id : {}", employeeId);
+//                log.info("Punch In Time : {}", punchInTime);
+//
+//                if (punchInTime != null) {
+//
+//                    totalSeconds = Duration
+//                            .between(punchInTime, LocalDateTime.now())
+//                            .getSeconds();
+//
+//                    if (totalSeconds < 0) {
+//                        totalSeconds = 0;
+//                    }
+//                }
+//
+//                log.info("Timer Seconds : {}", totalSeconds);
+//
+//                model.addAttribute("backendTotalSeconds", totalSeconds);
+//
+//            } catch (Exception ex) {
+//
+//                log.error("Unable to load sidebar data", ex);
+//            }
+//
+//            break;
+//        }
+//    }
+//}

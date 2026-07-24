@@ -60,10 +60,18 @@ public class Employee {
     private List<Attendance> attendanceList = new ArrayList<>();
 
 
-    @OneToOne(mappedBy = "employee",
+    @OneToMany(mappedBy = "employee",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Salary salaryDetails;
+//    private Salary salaryDetails;
+    private List<Salary> salaryDetails = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "employee",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    private List<Salary> salaries = new ArrayList<>();
+
+
 
     // Constructors, Getters, and Setters
     public Employee() {}
