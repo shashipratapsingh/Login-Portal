@@ -27,4 +27,7 @@ public interface AttendanceTrackingRepository
     Optional<AttendanceTracking> findByEmployeeIdAndDate(String employeeId,
                                                          LocalDate date);
     AttendanceTracking findTopByEmployeeIdAndDateOrderByLoginTimeDesc(String employeeId, LocalDate date);
+    //Optional<AttendanceTracking> findTopByEmployeeIdAndLogoutTimeIsNullOrderByLoginTimeDesc(String employeeId);
+    Optional<AttendanceTracking> findTopByEmployeeIdOrderByLoginTimeDesc(String employeeId);
+
 }
