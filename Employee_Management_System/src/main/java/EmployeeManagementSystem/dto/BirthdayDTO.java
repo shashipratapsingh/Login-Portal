@@ -14,6 +14,8 @@ public class BirthdayDTO {
     private String name;
     private LocalDate dateOfBirth;
 
+    private String department;
+
     private long remainingDays;
 
     private LocalDate nextDate;

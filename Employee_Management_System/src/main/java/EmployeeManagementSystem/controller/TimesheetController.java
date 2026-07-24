@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequestMapping("/timesheet")
+@RequestMapping("/employee/timesheet")
 @RequiredArgsConstructor
 public class TimesheetController {
     private final TimesheetService service;

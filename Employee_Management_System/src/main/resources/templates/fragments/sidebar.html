@@ -264,7 +264,7 @@
             </button>
             <div class="collapse" id="profileSubmenu">
                 <ul class="submenu">
-                    <li><a th:href="@{/profile/view}">View Profile</a></li>
+                    <li><a th:href="@{/employee/profile/view}">View Profile</a></li>
                 </ul>
             </div>
         </li>
@@ -277,24 +277,26 @@
             </button>
             <div class="collapse" id="salarySubmenu">
                 <ul class="submenu">
-                    <li><a th:href="@{/salary/slip/{id}(id=${loggedInEmpId})}">View Salary</a></li>
+                    <li><a th:href="@{/employee/salary/salary-list(id=${loggedInEmpId})}">View Salary</a></li>
                 </ul>
             </div>
         </li>
         <li th:classappend="${currentPage == 'leave'} ? 'active'">
-            <a th:href="@{/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
+            <a th:href="@{/employee/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
         </li>
         <li th:classappend="${currentPage == 'timesheet'} ? 'active'">
-            <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
+            <a th:href="@{/employee/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
         </li>
         <li th:classappend="${currentPage == 'wfh'} ? 'active'">
             <a th:href="@{/employee/wfh/apply}"><i class="fa-solid fa-house-laptop"></i>Work From Home</a>
         </li>
         <li th:classappend="${currentPage == 'signoff'} ? 'active'">
-            <a th:href="@{/attendance/signoff-logs}">
-                <i class="fa-solid fa-right-from-bracket text-danger"></i>
-                <span>Signoff Logs</span>
-            </a>
+            <form th:action="@{/employee/attendance/perform-signoff}" method="post" class="d-inline w-100">
+                <button type="submit" class="nav-link border-0 bg-transparent text-start w-100 p-0" style="color: inherit; cursor: pointer;">
+                    <i class="fa-solid fa-right-from-bracket text-danger me-2"></i>
+                    <span>Signoff Logs</span>
+                </button>
+            </form>
         </li>
         <li>
             <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#policySubmenu" aria-expanded="false">
@@ -348,7 +350,7 @@
                 const profileImg = document.getElementById("sidebarProfileImg");
                 profileImg.style.opacity = "0.4";
 
-                fetch("/profile/upload-photo", {
+                fetch("/employee/profile/upload-photo", {
                     method: "POST",
                     body: formData
                 })

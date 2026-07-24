@@ -20,8 +20,8 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Project name is required")
-    @Column(name = "project_name", unique = true, nullable = false)
+
+    @Column(name = "project_name", unique = true, nullable = true)
     private String projectName;
 
     @Column(name = "client_name")
@@ -52,6 +52,7 @@ public class Project {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 50)  // ADD THIS - set length to 50
     private ProjectStatus status;
 
     @Column(name = "created_by")

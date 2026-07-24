@@ -1,7 +1,9 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.dto.CelebrationDto;
 import EmployeeManagementSystem.dto.EmployeeCredentialsDTO;
 import EmployeeManagementSystem.entity.Department;
+import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.repository.EmployeeProfileRepository;
 import EmployeeManagementSystem.service.DepartmentService;
@@ -19,7 +21,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -247,7 +251,7 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService {
     @Override
     public EmployeeCredentialsDTO saveOrUpdateProfile(@Valid EmployeeProfile employee, Object o) {
         // Save the employee profile
-        EmployeeProfile savedProfile = saveEmployeeProfile(employee);
+        EmployeeProfile savedProfile = updateEmployeeProfile(employee.getId(),employee);
 
         // Create and return credentials DTO
         EmployeeCredentialsDTO credentials = new EmployeeCredentialsDTO();
@@ -266,7 +270,7 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService {
             EmployeeProfile employee = getEmployeeProfileByUserId(userId);
 
             // Define upload directory
-            String uploadDir = "uploads/employee_photos/";
+            String uploadDir = "C:/New folder/uploadFile/";
             Path uploadPath = Paths.get(uploadDir);
 
             // Create directory if it doesn't exist
@@ -287,13 +291,12 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService {
             Files.write(filePath, photoFile.getBytes());
 
             // Update employee profile with photo path
-            String photoPath = filePath.toString();
-            employee.setPhoto(photoPath);
+            employee.setPhoto(fileName);
             employee.setUpdatedAt(LocalDateTime.now());
             employeeProfileRepository.save(employee);
 
             // Return the photo path
-            return photoPath;
+            return fileName;
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload photo: " + e.getMessage());
@@ -399,7 +402,54 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService {
 
     @Override
     public EmployeeProfile getProfileByUserId(String currentEmplId) {
-        return employeeProfileRepository.findByUserId(currentEmplId)
-                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with userId: " + currentEmplId));
+        EmployeeProfile profile= employeeProfileRepository.findByUserId(currentEmplId)
+                //.orElseThrow(() -> new RuntimeException("EmployeeProfile not found with userId: " + currentEmplId));
+                .orElse(null);
+        return profile;
+    }
+
+    public List<CelebrationDto> getTodayCelebrations(){
+        List<EmployeeProfile> employees = employeeProfileRepository.findAll();
+
+        List<CelebrationDto> celebrations = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+
+        for (EmployeeProfile employee : employees) {
+
+            // Birthday
+            if (employee.getDob() != null &&
+                    employee.getDob().getMonth() == today.getMonth() &&
+                    employee.getDob().getDayOfMonth() == today.getDayOfMonth()) {
+
+                CelebrationDto dto = new CelebrationDto();
+                dto.setUserId(employee.getUserId());
+                dto.setFullName(employee.getFullName());
+                dto.setDob(employee.getDob());
+                dto.setPhoto(employee.getPhoto());
+                dto.setType("Birthday");
+
+                celebrations.add(dto);
+            }
+
+            // Work Anniversary
+            if (employee.getRegisteredAt() != null &&
+                    employee.getRegisteredAt().getMonth() == today.getMonth() &&
+                    employee.getRegisteredAt().getDayOfMonth() == today.getDayOfMonth()) {
+
+                CelebrationDto dto = new CelebrationDto();
+                dto.setUserId(employee.getUserId());
+                dto.setFullName(employee.getFullName());
+                dto.setRegisteredAt(employee.getRegisteredAt());
+                dto.setPhoto(employee.getPhoto());
+
+                int years = Period.between(employee.getRegisteredAt().toLocalDate(), today).getYears();
+                dto.setType("Anniversary");
+
+                celebrations.add(dto);
+            }
+        }
+
+        return celebrations;
     }
 }

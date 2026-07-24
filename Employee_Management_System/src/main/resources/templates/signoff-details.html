@@ -1,30 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<<<<<<< Updated upstream
-    <title>Signoff Details</title>
-    <!-- Aapke bootstrap aur font-awesome ke links yahan rahenge -->
-=======
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signoff Details | HRMS</title>
-    <!-- Bootstrap 5.3.3 & Font Awesome -->
+    <title>Signoff Details</title>
+    <!-- Bootstrap and Font-Awesome CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <link rel="stylesheet" th:href="@{/css/signoff-details.css}">
->>>>>>> Stashed changes
+    <!-- Custom CSS for layout fix -->
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Full screen flex wrapper */
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Sidebar container handling */
+        .sidebar-container {
+            min-width: 260px;
+            max-width: 260px;
+            background: #1e293b;
+        }
+
+        /* Main content area handling */
+        .main-content {
+            flex-grow: 1;
+            background-color: #f8f9fa;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        /* Custom styling for badges and table headers */
+        .table thead th {
+            letter-spacing: 0.5px;
+        }
+
+        .badge {
+            letter-spacing: 0.3px;
+            padding: 6px 12px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="d-flex">
-    <!-- Sidebar Fragment Include Kiya -->
-    <div th:replace="~{fragments/sidebar :: sidebar-component}"></div>
+<div class="page-wrapper">
+    <!-- Sidebar Fragment Box -->
+    <div class="sidebar-container">
+        <div th:replace="~{fragments/sidebar :: sidebar-component}"></div>
+    </div>
 
     <!-- Main Content Area -->
-    <div class="main-content p-4 w-100">
-        <div class="container-fluid bg-white rounded-3 border p-4">
+    <div class="main-content p-4">
+        <div class="container-fluid bg-white rounded-3 border p-4 shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="fw-bold m-0 text-dark">
                     <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>My Signoff & Attendance Logs
@@ -36,34 +72,48 @@
                     <thead class="table-light text-muted" style="font-size: 12px; text-transform: uppercase;">
                     <tr>
                         <th style="width: 8%;">S.No.</th>
+                        <th>Work Mode</th>
+                        <th>Work Hours</th>
                         <th>Login Time</th>
                         <th>Logout Time</th>
-                        <th>Work Hours</th>
-                        <th>Location Mode</th>
                     </tr>
                     </thead>
                     <tbody>
                     <!-- Loop through attendance logs -->
                     <tr th:each="log, stat : ${attendanceLogs}">
+                        <!-- 1. S.No. -->
                         <td class="fw-bold text-muted" th:text="${stat.count}">1</td>
-                        <td th:text="${log.loginTime != null ? log.loginTime : '-'}">09:30 AM, 07 Jul</td>
-                        <td th:text="${log.logoutTime != null ? log.logoutTime : 'Still Logged In'}">06:30 PM, 07 Jul</td>
-                        <td>
-                                <span class="badge bg-success-subtle text-success fw-medium"
-                                      th:text="${log.workHours != null ? log.workHours : 'In Progress...'}">
-                                    9h 0m
-                                </span>
+
+                        <!-- 2. Work Mode -->
+                        <td th:text="${log.workMode != null ? log.workMode : '-'}">
+                            Office
                         </td>
+
+                        <!-- 3. Work Hours -->
                         <td>
-                            <!-- WFH ya Office badge style -->
-                            <span th:classappend="${log.workMode == 'WFH'} ? 'bg-info-subtle text-info' : 'bg-warning-subtle text-warning'"
-                                  class="badge rounded-1 fw-semibold"
-                                  th:text="${log.workMode}">Office</span>
+                            <span class="badge bg-success-subtle text-success fw-medium rounded-2"
+                                  th:text="${log.workingHours != null ? log.workingHours : 'In Progress...'}">
+                                9h 0m
+                            </span>
+                        </td>
+
+                        <!-- 4. Login Time -->
+                        <td th:text="${log.loginTime != null ? #temporals.format(log.loginTime, 'dd MMM yyyy hh:mm a') : '-'}">
+                            01 Jan 2026 09:00 AM
+                        </td>
+
+                        <!-- 5. Logout Time -->
+                        <td th:text="${log.logoutTime != null ? #temporals.format(log.logoutTime, 'dd MMM yyyy hh:mm a') : 'Still Logged In'}">
+                            01 Jan 2026 06:00 PM
                         </td>
                     </tr>
+
                     <!-- If list is empty -->
                     <tr th:if="${#lists.isEmpty(attendanceLogs)}">
-                        <td colspan="5" class="text-center text-muted py-4">No logs found for your profile.</td>
+                        <td colspan="5" class="text-center text-muted py-5">
+                            <i class="fa-regular fa-folder-open d-block fs-3 mb-2 text-secondary"></i>
+                            No logs found for your profile.
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -72,5 +122,7 @@
     </div>
 </div>
 
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

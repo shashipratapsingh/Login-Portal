@@ -1,5 +1,7 @@
 package EmployeeManagementSystem.jwt;
 
+import EmployeeManagementSystem.entity.UserSession;
+import EmployeeManagementSystem.repository.UserSessionRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -15,12 +17,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final UserSessionRepository userSessionRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -44,6 +48,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // IMPORTANT: NEVER BLOCK REQUEST (NO 403 HERE)
             if (token == null || token.isBlank()) {
                 filterChain.doFilter(request, response);
+                return;
+            }
+            Optional<UserSession> session =
+                    userSessionRepository.findByJwtTokenAndIsActiveTrue(token);
+
+            if(session.isEmpty()){
+                SecurityContextHolder.clearContext();
+                filterChain.doFilter(request,response);
                 return;
             }
 
@@ -94,8 +106,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // ================= PUBLIC PATHS =================
     private boolean isPublicPath(String path) {
-        return path.startsWith("/auth/")
-                || path.startsWith("/css/")
+        if (path.equals("/auth/logout")) {
+            return false;
+        }
+
+        return path.startsWith("/css/")
                 || path.startsWith("/js/")
                 || path.startsWith("/images/")
                 || path.startsWith("/webjars/")
@@ -117,4 +132,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
+
 }

@@ -3,8 +3,10 @@ package EmployeeManagementSystem.controller;
 import EmployeeManagementSystem.dto.LoginRequest;
 import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.RegisterEmployee;
+import EmployeeManagementSystem.entity.UserSession;
 import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.repository.AttendanceTrackingRepository;
+import EmployeeManagementSystem.repository.UserSessionRepository;
 import EmployeeManagementSystem.service.AttendanceService;
 import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
@@ -12,12 +14,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/auth")
@@ -26,6 +32,7 @@ public class LoginController {
     private final RegisterEmployeeService service;
     private final AttendanceTrackingRepository attendanceTrackingRepository;
     private  final JwtUtil jwtUtil;
+    private final UserSessionRepository userSessionRepository;
 
     @GetMapping("/employeeRegisterForm")
     public String openForm(Model model){
@@ -49,8 +56,9 @@ public class LoginController {
     }
     @PostMapping("/login")
     public String login(@ModelAttribute("loginRequest") LoginRequest request,
-                        HttpServletResponse response, Model model) {
+                        HttpServletResponse response,Model model) {
         try {
+            String employeeId=request.getUserId();
 
             String token = service.login(request);
 
@@ -60,27 +68,39 @@ public class LoginController {
             jwtCookie.setMaxAge(60 * 60);
 
             response.addCookie(jwtCookie);
+            UserSession session = new UserSession();
+
+            session.setEmployeeId(employeeId);
+            session.setJwtToken(token);
+            session.setIsActive(true);
+            session.setCreatedAt(LocalDateTime.now());
+            session.setExpiresAt(LocalDateTime.now().plusHours(1));
+
+            userSessionRepository.save(session);
             String role = jwtUtil.extractRole(token);
 
             System.out.println("ROLE = " + role);
 
 //            HttpSession session = (HttpSession) request.getSession();
 
-            Long employeeId = 1L;
-            String employeeName = "Employee";
-
 //            session.setAttribute("employeeId", employeeId);
 //            session.setAttribute("employeeName", employeeName);
+            Optional<AttendanceTracking> existing =
+                    attendanceTrackingRepository.findByEmployeeIdAndDate(
+                            employeeId,
+                            LocalDate.now());
+            if (existing.isEmpty()) {
 
-            AttendanceTracking attendance = new AttendanceTracking();
-            attendance.setEmployeeId(employeeId);
-            attendance.setEmployeeName(employeeName);
-            attendance.setDate(LocalDate.now());
-            attendance.setLoginTime(LocalDateTime.now());
-            attendance.setStatus("Present");
+                AttendanceTracking attendance = new AttendanceTracking();
+                attendance.setEmployeeId(employeeId);
+                //attendance.setEmployeeName(registerEmployee.getName());
+                attendance.setDate(LocalDate.now());
+                attendance.setLoginTime(LocalDateTime.now());
+                attendance.setStatus("Present");
+                attendance.setWorkMode(request.getWorkMode());
 
-            attendanceTrackingRepository.save(attendance);
-
+                attendanceTrackingRepository.save(attendance);
+            }
 
             System.out.println("Attendance Saved Successfully");
 
@@ -143,6 +163,24 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request,
                          HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String employeeId = authentication.getName();
+
+        AttendanceTracking attendance =
+                attendanceTrackingRepository
+                        .findTopByEmployeeIdAndDateOrderByLoginTimeDesc(
+                                employeeId,
+                                LocalDate.now());
+
+        attendance.setLogoutTime(LocalDateTime.now());
+
+        Duration duration =
+                Duration.between(attendance.getLoginTime(),
+                        attendance.getLogoutTime());
+
+        attendance.setWorkingHours(duration.toMinutes() / 60.0);
+
+        attendanceTrackingRepository.save(attendance);
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -157,6 +195,12 @@ public class LoginController {
                 }
             }
         }
+
         return "redirect:/auth/loginPage?logout=true";
+    }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
     }
 }
